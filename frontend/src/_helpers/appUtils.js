@@ -9,13 +9,13 @@ import { history } from '@/_helpers';
 import { serializeNestedObjectToQueryParams } from './utils';
 import { componentTypes } from '../Editor/Components/components';
 
-export function setStateAsync(_ref, state) {
+export function setStateAsync (_ref, state) {
   return new Promise((resolve) => {
     _ref.setState(state, resolve);
   });
 }
 
-export function onComponentOptionsChanged(_ref, component, options) {
+export function onComponentOptionsChanged (_ref, component, options) {
   const componentName = component.name;
   const components = _ref.state.currentState.components;
   let componentData = components[componentName];
@@ -30,7 +30,7 @@ export function onComponentOptionsChanged(_ref, component, options) {
   });
 }
 
-export function onComponentOptionChanged(_ref, component, option_name, value) {
+export function onComponentOptionChanged (_ref, component, option_name, value) {
   const componentName = component.name;
   const components = _ref.state.currentState.components;
   let componentData = components[componentName];
@@ -42,12 +42,12 @@ export function onComponentOptionChanged(_ref, component, option_name, value) {
   });
 }
 
-export function fetchOAuthToken(authUrl, dataSourceId) {
+export function fetchOAuthToken (authUrl, dataSourceId) {
   localStorage.setItem('sourceWaitingForOAuth', dataSourceId);
   window.open(authUrl);
 }
 
-export function runTransformation(_ref, rawData, transformation, query) {
+export function runTransformation (_ref, rawData, transformation, query) {
   const data = rawData;
   const evalFunction = Function(['data', 'moment', '_', 'components', 'queries', 'globals'], transformation);
   let result = [];
@@ -57,50 +57,49 @@ export function runTransformation(_ref, rawData, transformation, query) {
   try {
     result = evalFunction(data, moment, _, currentState.components, currentState.queries, currentState.globals);
   } catch (err) {
-    console.log('Transformation failed for query: ', query.name ,err);
+    console.log('Transformation failed for query: ', query.name, err);
     toast.error(err.message, { hideProgressBar: true });
   }
 
   return result;
 }
 
-export async function executeActionsForEventId(_ref, eventId, component, mode) {
+export async function executeActionsForEventId (_ref, eventId, component, mode) {
   const events = component.definition.events || [];
   const filteredEvents = events.filter(event => event.eventId === eventId);
 
-  for(const event of filteredEvents) {
+  for (const event of filteredEvents) {
     await executeAction(_ref, event, mode);
-  };
-
+  }
 }
 
-export function onComponentClick(_ref, id, component, mode = 'edit') {
+export function onComponentClick (_ref, id, component, mode = 'edit') {
   executeActionsForEventId(_ref, 'onClick', component, mode);
 }
 
-export function onQueryConfirm(_ref, queryConfirmationData) {
+export function onQueryConfirm (_ref, queryConfirmationData) {
   _ref.setState({
     showQueryConfirmation: false
   });
   runQuery(_ref, queryConfirmationData.queryId, queryConfirmationData.queryName, true);
 }
 
-export function onQueryCancel(_ref) {
+export function onQueryCancel (_ref) {
   _ref.setState({
     showQueryConfirmation: false
   });
 }
 
-async function copyToClipboard(text) {
+async function copyToClipboard (text) {
   try {
     await navigator.clipboard.writeText(text);
     toast.success('Copied to clipboard!', { hideProgressBar: true, autoClose: 3000 });
   } catch (err) {
     console.log('Failed to copy!', err);
   }
-};
+}
 
-function showModal(_ref, modalId, show) {
+function showModal (_ref, modalId, show) {
   const modalMeta = _ref.state.appDefinition.components[modalId];
 
   const newState = {
@@ -114,23 +113,23 @@ function showModal(_ref, modalId, show) {
         }
       }
     }
-  }
+  };
 
-  _ref.setState(newState)
+  _ref.setState(newState);
 
   return new Promise(function (resolve, reject) {
     resolve();
-  })
+  });
 }
 
-function executeAction(_ref, event, mode) {
+function executeAction (_ref, event, mode) {
   if (event) {
     if (event.actionId === 'show-alert') {
       const message = resolveReferences(event.message, _ref.state.currentState);
       toast(message, { hideProgressBar: true });
       return new Promise(function (resolve, reject) {
         resolve();
-      })
+      });
     }
 
     if (event.actionId === 'run-query') {
@@ -143,7 +142,7 @@ function executeAction(_ref, event, mode) {
       window.open(url, '_blank');
       return new Promise(function (resolve, reject) {
         resolve();
-      })
+      });
     }
 
     if (event.actionId === 'go-to-app') {
@@ -153,34 +152,31 @@ function executeAction(_ref, event, mode) {
         ...{
           [resolveReferences(queryParam[0], _ref.state.currentState)]: resolveReferences(queryParam[1], _ref.state.currentState)
         }
-      }), {})
+      }), {});
 
-      let url =`/applications/${slug}`;
+      let url = `/applications/${slug}`;
 
       if (queryParams) {
-        const queryPart = serializeNestedObjectToQueryParams(queryParams)
+        const queryPart = serializeNestedObjectToQueryParams(queryParams);
 
-        if (queryPart.length > 0)
-          url = url + `?${queryPart}`
+        if (queryPart.length > 0) { url = url + `?${queryPart}`; }
       }
 
-      if(mode === 'view') {
+      if (mode === 'view') {
         _ref.props.history.push(url);
       } else {
-        if(confirm("The app will be opened in a new tab as the action is triggered from the editor.")) {
+        if (confirm('The app will be opened in a new tab as the action is triggered from the editor.')) {
           window.open(url, '_blank');
         }
       }
       return new Promise(function (resolve, reject) {
         resolve();
-      })
+      });
     }
 
-    if (event.actionId === 'show-modal')
-      return showModal(_ref, event.modal, true)
+    if (event.actionId === 'show-modal') { return showModal(_ref, event.modal, true); }
 
-    if (event.actionId === 'close-modal')
-      return showModal(_ref, event.modal, false)
+    if (event.actionId === 'close-modal') { return showModal(_ref, event.modal, false); }
 
     if (event.actionId === 'copy-to-clipboard') {
       const contentToCopy = resolveReferences(event.contentToCopy, _ref.state.currentState);
@@ -188,15 +184,14 @@ function executeAction(_ref, event, mode) {
 
       return new Promise(function (resolve, reject) {
         resolve();
-      })
+      });
     }
   }
 }
 
-export async function onEvent(_ref, eventName, options, mode = 'edit') {
-  let _self = _ref;
+export async function onEvent (_ref, eventName, options, mode = 'edit') {
+  const _self = _ref;
   console.log('Event: ', eventName);
-
 
   if (eventName === 'onRowClicked') {
     const { component, data } = options;
@@ -231,13 +226,13 @@ export async function onEvent(_ref, eventName, options, mode = 'edit') {
         }
       }
     }, () => {
-      if(action) {
-        action.events?.forEach((event => {
+      if (action) {
+        action.events?.forEach(event => {
           if (event.actionId) {
             // the event param uses a hacky workaround for using same format used by event manager ( multiple handlers )
-            executeAction(_self, { ...event, ...event.options } , mode);
+            executeAction(_self, { ...event, ...event.options }, mode);
           }
-        }) )
+        });
       } else {
         console.log('No action is associated with this event');
       }
@@ -260,36 +255,34 @@ export async function onEvent(_ref, eventName, options, mode = 'edit') {
   }
 }
 
-function getQueryVariables(options, state) {
+function getQueryVariables (options, state) {
+  const queryVariables = {};
 
-  let queryVariables = {};
-
-  if( typeof options === 'string' ) {
+  if (typeof options === 'string') {
     const dynamicVariables = getDynamicVariables(options) || [];
     dynamicVariables.forEach((variable) => {
       queryVariables[variable] = resolveReferences(variable, state);
     });
-  } else if(Array.isArray(options)) {
+  } else if (Array.isArray(options)) {
     options.forEach((element) => {
-      _.merge(queryVariables, getQueryVariables(element, state))
-    })
-  } else if(typeof options ==="object") {
+      _.merge(queryVariables, getQueryVariables(element, state));
+    });
+  } else if (typeof options === 'object') {
     Object.keys(options || {}).forEach((key) => {
-      _.merge(queryVariables, getQueryVariables(options[key], state))
-    })
+      _.merge(queryVariables, getQueryVariables(options[key], state));
+    });
   }
 
   return queryVariables;
 }
 
-export function previewQuery(_ref, query) {
+export function previewQuery (_ref, query) {
   const options = getQueryVariables(query.options, _ref.props.currentState);
 
   _ref.setState({ previewLoading: true });
 
   return new Promise(function (resolve, reject) {
     dataqueryService.preview(query, options).then(data => {
-
       let finalData = data.data;
 
       if (query.options.enableTransformation) {
@@ -298,31 +291,31 @@ export function previewQuery(_ref, query) {
 
       _ref.setState({ previewLoading: false, queryPreviewData: finalData });
 
-      if(data.status === 'failed') {
+      if (data.status === 'failed') {
         toast.error(`${data.message}: ${data.description}`, { position: 'bottom-center', hideProgressBar: true, autoClose: 10000 });
       } else {
         if (data.status === 'needs_oauth') {
           const url = data.data.auth_url; // Backend generates and return sthe auth url
           fetchOAuthToken(url, query.data_source_id);
         }
-        if(data.status === 'ok') {
-          toast.info(`Query completed.`, {
+        if (data.status === 'ok') {
+          toast.info('Query completed.', {
             hideProgressBar: true,
-            position: 'bottom-center',
+            position: 'bottom-center'
           });
         }
       }
 
       resolve();
-    }).catch(({ error, data } ) => {
+    }).catch(({ error, data }) => {
       _ref.setState({ previewLoading: false, queryPreviewData: data });
       toast.error(error, { hideProgressBar: true, autoClose: 3000 });
-      reject( { error, data });
-    });;
+      reject({ error, data });
+    });
   });
 }
 
-export function runQuery(_ref, queryId, queryName, confirmed = undefined) {
+export function runQuery (_ref, queryId, queryName, confirmed = undefined) {
   const query = _ref.state.app.data_queries.find(query => query.id === queryId);
   let dataQuery = {};
 
@@ -360,12 +353,11 @@ export function runQuery(_ref, queryId, queryName, confirmed = undefined) {
     errors: {}
   };
 
-  let _self = _ref;
+  const _self = _ref;
 
   return new Promise(function (resolve, reject) {
     _self.setState({ currentState: newState }, () => {
       dataqueryService.run(queryId, options).then(data => {
-
         if (data.status === 'needs_oauth') {
           const url = data.data.auth_url; // Backend generates and return sthe auth url
           fetchOAuthToken(url, dataQuery.data_source_id);
@@ -400,12 +392,12 @@ export function runQuery(_ref, queryId, queryName, confirmed = undefined) {
                 _self,
                 'onDataQueryFailure',
                 { definition: { events: dataQuery.options.events } }
-              )
+              );
             })
-          )
+          );
         }
 
-        let rawData = data.data;
+        const rawData = data.data;
         let finalData = data.data;
 
         if (dataQuery.options.enableTransformation) {
@@ -436,9 +428,9 @@ export function runQuery(_ref, queryId, queryName, confirmed = undefined) {
             _self,
             'onDataQuerySuccess',
             { definition: { events: dataQuery.options.events } }
-          )
+          );
         });
-      }).catch(( { error } ) => {
+      }).catch(({ error }) => {
         toast.error(error, { hideProgressBar: true, autoClose: 3000 });
         _self.setState({
           currentState: {
@@ -458,14 +450,16 @@ export function runQuery(_ref, queryId, queryName, confirmed = undefined) {
   });
 }
 
-export function renderTooltip({props, text}) {
-  return <Tooltip id="button-tooltip" {...props}>
-    {text}
-  </Tooltip>
-};
+export function renderTooltip ({ props, text }) {
+  return (
+    <Tooltip id='button-tooltip' {...props}>
+      {text}
+    </Tooltip>
+  );
+}
 
-export function computeComponentState(_ref, components) {
-  let componentState = {};
+export function computeComponentState (_ref, components) {
+  const componentState = {};
   const currentComponents = _ref.state.currentState.components;
   Object.keys(components).forEach((key) => {
     const component = components[key];
@@ -475,19 +469,17 @@ export function computeComponentState(_ref, components) {
     const existingValues = currentComponents[existingComponentName];
 
     componentState[component.component.name] = { ...componentMeta.exposedVariables, id: key, ...existingValues };
-
   });
 
   _ref.setState({
     currentState: {
       ..._ref.state.currentState,
       components: {
-        ...componentState,
-      },
+        ...componentState
+      }
     },
     defaultComponentStateComputed: true
   }, () => {
-    console.log('Default component state computed and set')
+    console.log('Default component state computed and set');
   });
-
 }

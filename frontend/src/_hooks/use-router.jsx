@@ -3,11 +3,11 @@ import {
   useParams,
   useLocation,
   useHistory,
-  useRouteMatch,
+  useRouteMatch
 } from 'react-router-dom';
 import queryString from 'query-string';
 
-export default function useRouter() {
+export default function useRouter () {
   const params = useParams();
   const location = useLocation();
   const history = useHistory();
@@ -25,13 +25,13 @@ export default function useRouter() {
       // Example: /:topic?sort=popular -> { topic: 'react', sort: 'popular' }
       query: {
         ...queryString.parse(location.search), // Convert string to object
-        ...params,
+        ...params
       },
       // Include match, location, history objects so we have
       // access to extra React Router functionality if needed.
       match,
       location,
-      history,
+      history
     };
   }, [params, match, location, history]);
 }

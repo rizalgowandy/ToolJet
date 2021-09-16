@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 import SelectSearch, { fuzzySearch } from 'react-select-search';
 
-export const Multiselect = function Multiselect({
+export const Multiselect = function Multiselect ({
   id,
   width,
   height,
@@ -40,7 +40,7 @@ export const Multiselect = function Multiselect({
   }
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
@@ -50,23 +50,23 @@ export const Multiselect = function Multiselect({
   }, [newValue]);
 
   return (
-    <div className="multiselect-widget row g-0" style={{ width, height, display:parsedWidgetVisibility ? '' : 'none' }} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
-      <div className="col-auto">
-        <label style={{marginRight: '1rem'}} className="form-label py-1">{label}</label>
+    <div className='multiselect-widget row g-0' style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
+      <div className='col-auto'>
+        <label style={{ marginRight: '1rem' }} className='form-label py-1'>{label}</label>
       </div>
-      <div className="col px-0">
+      <div className='col px-0'>
         <SelectSearch
           disabled={parsedDisabledState}
           options={selectOptions}
           value={currentValue}
-          search={true}
-          multiple={true}
-          printOptions="on-focus"
+          search
+          multiple
+          printOptions='on-focus'
           onChange={(newValues) => {
             onComponentOptionChanged(component, 'values', newValues);
           }}
           filterOptions={fuzzySearch}
-          placeholder="Select.."
+          placeholder='Select..'
         />
       </div>
     </div>

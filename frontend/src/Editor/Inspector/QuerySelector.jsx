@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SelectSearch, { fuzzySearch } from 'react-select-search';
-import Collapse from 'react-bootstrap/Collapse'
+import Collapse from 'react-bootstrap/Collapse';
 
 export const QuerySelector = ({
   param,
@@ -13,10 +13,9 @@ export const QuerySelector = ({
   currentState,
   components
 }) => {
-
   const [open, setOpen] = useState(false);
 
-  function onChange(value) {
+  function onChange (value) {
     const query = dataQueries.find((dataquery) => dataquery.id === value);
     eventOptionUpdated(param, 'queryId', query.id, extraData);
     eventOptionUpdated(param, 'queryName', query.name, extraData);
@@ -31,31 +30,31 @@ export const QuerySelector = ({
   }
 
   return (
-    <div className="field mb-3 mt-1 px-2">
-      <label className="form-label" role="button" onClick={() => setOpen(!open)}>
-        <div className="row">
-          <div className="col">
+    <div className='field mb-3 mt-1 px-2'>
+      <label className='form-label' role='button' onClick={() => setOpen(!open)}>
+        <div className='row'>
+          <div className='col'>
             {eventMeta.displayName}
           </div>
           <div className={`col-auto events-toggle ${open ? 'events-toggle-active' : ''}`}>
-            <span className="toggle-icon"></span>
+            <span className='toggle-icon' />
           </div>
         </div>
       </label>
       <Collapse in={open}>
-        <div id="collapse">
-          <div className="field mb-2 mt-1">
+        <div id='collapse'>
+          <div className='field mb-2 mt-1'>
             <SelectSearch
               options={dataQueries.map((query) => {
                 return { name: query.name, value: query.id };
               })}
               value={definition.options.queryId}
-              search={true}
+              search
               onChange={(value) => {
                 onChange(value);
               }}
               filterOptions={fuzzySearch}
-              placeholder="Select.."
+              placeholder='Select..'
             />
           </div>
         </div>

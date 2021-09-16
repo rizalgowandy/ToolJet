@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import config from 'config';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
-import { Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
-import { Autocomplete } from '@react-google-maps/api';
 import { darkModeStyles } from './styles';
 
-
-export const Map = function Map({
+export const Map = function Map ({
   id,
   width,
   height,
@@ -22,9 +19,9 @@ export const Map = function Map({
   const center = component.definition.properties.initialLocation.value;
   const defaultMarkerValue = component.definition.properties.defaultMarkers.value;
 
-  let defaultMarkers = []
+  let defaultMarkers = [];
   try {
-    defaultMarkers = defaultMarkerValue
+    defaultMarkers = defaultMarkerValue;
   } catch (err) { console.log(err); }
 
   const addNewMarkersProp = component.definition.properties.addNewMarkers;
@@ -53,8 +50,8 @@ export const Map = function Map({
     height
   };
 
-  function handleMapClick(e) {
-    if(!canAddNewMarkers) { return }
+  function handleMapClick (e) {
+    if (!canAddNewMarkers) { return; }
 
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
@@ -66,13 +63,13 @@ export const Map = function Map({
     onComponentOptionChanged(component, 'markers', newMarkers).then(() => onEvent('onCreateMarker', { component }));
   }
 
-  function handleBoundsChange() {
+  function handleBoundsChange () {
     const mapBounds = gmap.getBounds();
 
     const bounds = {
       northEast: mapBounds.getNorthEast()?.toJSON(),
-      southWest: mapBounds.getSouthWest()?.toJSON(),
-    }
+      southWest: mapBounds.getSouthWest()?.toJSON()
+    };
 
     const newCenter = gmap.center?.toJSON();
     setMapCenter(newCenter);
@@ -84,52 +81,52 @@ export const Map = function Map({
   }
 
   const onLoad = useCallback(
-    function onLoad(mapInstance) {
+    function onLoad (mapInstance) {
       setGmap(mapInstance);
       onComponentOptionsChanged(component, [
         ['center', mapInstance.center?.toJSON()]
-      ])
+      ]);
     }
-  )
+  );
 
-  function handleMarkerClick(index) {
+  function handleMarkerClick (index) {
     onComponentOptionChanged(component,
       'selectedMarker', markers[index]
     ).then(() => onEvent('onMarkerClick', { component }));
   }
 
-  function onPlaceChanged() {
+  function onPlaceChanged () {
     const location = autoComplete.getPlace().geometry.location?.toJSON();
     setMapCenter(location);
     handleBoundsChange();
   }
 
-  function onAutocompleteLoad(autocompleteInstance) {
+  function onAutocompleteLoad (autocompleteInstance) {
     setAutoComplete(autocompleteInstance);
   }
 
-
   return (
-    <div data-disabled={parsedDisabledState} style={{ width, height, display:parsedWidgetVisibility ? '' : 'none' }} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}} className="map-widget">
+    <div data-disabled={parsedDisabledState} style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }} className='map-widget'>
       <div
-        className="map-center"
+        className='map-center'
         style={
             {
-              right: width*0.5-18,
-              top: height*0.5-50
+              right: width * 0.5 - 18,
+              top: height * 0.5 - 50
             }
-        }>
+        }
+      >
         <img
-          className="mx-2"
-          src="/assets/images/icons/marker.svg"
-          width="24"
-          height="64"
+          className='mx-2'
+          src='/assets/images/icons/marker.svg'
+          width='24'
+          height='64'
 
         />
       </div>
       <LoadScript
         googleMapsApiKey={window.public_config.GOOGLE_MAPS_API_KEY}
-        libraries={["places"]}
+        libraries={['places']}
       >
         <GoogleMap
           center={mapCenter}
@@ -147,16 +144,15 @@ export const Map = function Map({
         >
           {canSearch &&
             <Autocomplete
-                onPlaceChanged={onPlaceChanged}
-                onLoad={onAutocompleteLoad}
-              >
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="place-search-input"
-                />
-            </Autocomplete>
-          }
+              onPlaceChanged={onPlaceChanged}
+              onLoad={onAutocompleteLoad}
+            >
+              <input
+                type='text'
+                placeholder='Search'
+                className='place-search-input'
+              />
+            </Autocomplete>}
           {Array.isArray(markers) &&
             <>
               {markers.map((marker, index) =>
@@ -166,8 +162,7 @@ export const Map = function Map({
                   onClick={(e) => handleMarkerClick(index)}
                 />
               )}
-            </>
-          }
+            </>}
         </GoogleMap>
       </LoadScript>
     </div>

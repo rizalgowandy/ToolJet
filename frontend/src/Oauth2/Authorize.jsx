@@ -3,13 +3,13 @@ import queryString from 'query-string';
 import { datasourceService } from '@/_services';
 
 class Authorize extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = {};
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const props = this.props;
     const query = props.location.search;
     const params = queryString.parse(query);
@@ -17,7 +17,7 @@ class Authorize extends React.Component {
 
     const details = { code };
 
-    let _self = this;
+    const _self = this;
 
     this.setState({
       details,
@@ -45,7 +45,7 @@ class Authorize extends React.Component {
     }
   }
 
-  render() {
+  render () {
     const { isLoading, authSucess, authFailure } = this.state;
 
     return (

@@ -6,7 +6,7 @@ const Input = ({ disabled, className, onClick, children, ...props }) => {
     <Button
       className={className}
       disabled={disabled}
-      variant="primary"
+      variant='primary'
       onClick={onClick}
       {...props}
     >

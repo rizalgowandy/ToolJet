@@ -8,7 +8,7 @@ const Slack = ({
 }) => {
   const [authStatus, setAuthStatus] = useState(null);
 
-  function authGoogle() {
+  function authGoogle () {
     const provider = 'slack';
     setAuthStatus('waiting_for_url');
 
@@ -31,7 +31,7 @@ const Slack = ({
     });
   }
 
-  function saveDataSource() {
+  function saveDataSource () {
     optionchanged('code', localStorage.getItem('OAuthCode')).then(() => {
       createDataSource();
     });
@@ -39,30 +39,30 @@ const Slack = ({
 
   return (
     <div>
-      <div className="row">
-        <div className="col-md-12">
-          <div className="mb-3">
-            <div className="form-label">Authorize</div>
+      <div className='row'>
+        <div className='col-md-12'>
+          <div className='mb-3'>
+            <div className='form-label'>Authorize</div>
             <p>ToolJet can connect to Slack and list users, send messages, etc. Please select appropriate permission scopes.</p>
             <div>
-              <label className="form-check mt-3">
+              <label className='form-check mt-3'>
                 <input
-                  className="form-check-input"
-                  type="radio"
+                  className='form-check-input'
+                  type='radio'
                   onClick={() => optionchanged('access_type', 'chat:write')}
                   checked={options.access_type.value === 'chat:write'}
                   disabled={authStatus === 'waiting_for_token'}
                 />
-                <span className="form-check-label">
+                <span className='form-check-label'>
                   chat:write <br />
-                  <small className="text-muted">Your ToolJet app will be able to list users and send messages to users & channels.</small>
+                  <small className='text-muted'>Your ToolJet app will be able to list users and send messages to users & channels.</small>
                 </span>
               </label>
             </div>
           </div>
         </div>
       </div>
-      <div className="row mt-3">
+      <div className='row mt-3'>
         <center>
           {authStatus === 'waiting_for_token' && (
             <div>
@@ -91,4 +91,4 @@ const Slack = ({
   );
 };
 
-export default Slack
+export default Slack;

@@ -6,13 +6,13 @@ import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 
 import Star from './star';
 
-export const StarRating = function StarRating({
+export const StarRating = function StarRating ({
   id,
   component,
   onComponentClick,
   onComponentOptionChanged,
   currentState,
-  onEvent,
+  onEvent
 }) {
   const label = component.definition.properties.label.value;
   const defaultSelected = +component.definition.properties.defaultSelected.value ?? 5;
@@ -26,7 +26,7 @@ export const StarRating = function StarRating({
   const parsedDisabledState = typeof disabledState !== 'boolean' ? resolveWidgetFieldValue(disabledState, currentState) : disabledState;
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
@@ -37,14 +37,14 @@ export const StarRating = function StarRating({
   const animatedStars = useTrail(maxRating, {
     config: {
       friction: 22,
-      tension: 500,
+      tension: 500
     },
     from: {
       opacity: 0,
-      transform: 'scale(0.8)',
+      transform: 'scale(0.8)'
     },
     opacity: 1,
-    transform: 'scale(1)',
+    transform: 'scale(1)'
   });
 
   // -1 cos code is considering index from 0,1,2.....
@@ -59,10 +59,10 @@ export const StarRating = function StarRating({
   React.useEffect(() => {
     setTimeout(() => {
       onComponentOptionChanged(component, 'value', defaultSelected);
-    }, 1000)
+    }, 1000);
   }, []);
 
-  function handleClick(idx) {
+  function handleClick (idx) {
     // +1 cos code is considering index from 0,1,2.....
     onComponentOptionChanged(component, 'value', idx + 1);
     onEvent('onChange', { component });
@@ -84,9 +84,9 @@ export const StarRating = function StarRating({
   };
 
   return (
-    <div data-disabled={parsedDisabledState} className="star-rating" onClick={event => {event.stopPropagation(); onComponentClick(id, component)}} style={{display:parsedWidgetVisibility ? '' : 'none'}}>
-      {/* TODO: Add label color defination property instead of hardcoded color*/}
-      <span className="label form-check-label form-check-label col-auto" style={{ color: '#000' }}>
+    <div data-disabled={parsedDisabledState} className='star-rating' onClick={event => { event.stopPropagation(); onComponentClick(id, component); }} style={{ display: parsedWidgetVisibility ? '' : 'none' }}>
+      {/* TODO: Add label color defination property instead of hardcoded color */}
+      <span className='label form-check-label form-check-label col-auto' style={{ color: '#000' }}>
         {label}
       </span>
       {animatedStars.map((props, index) => (

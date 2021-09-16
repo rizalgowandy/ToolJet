@@ -1,4 +1,4 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -6,25 +6,25 @@ const environment = process.env.NODE_ENV === 'production' ? 'production' : 'deve
 
 const API_URL = {
   production: process.env.TOOLJET_SERVER_URL || '',
-  development: 'http://localhost:3000',
+  development: 'http://localhost:3000'
 };
 
 const ASSET_PATH = {
   production: 'https://app.tooljet.io/',
-  development: '/public/',
+  development: '/public/'
 };
 
 module.exports = {
   mode: 'development',
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx']
   },
   devtool: 'inline-source-map',
   module: {
     rules: [
       {
         test: /\.ttf$/,
-        use: ['file-loader'],
+        use: ['file-loader']
       },
       {
         test: /\.svg$/,
@@ -32,10 +32,10 @@ module.exports = {
           {
             loader: '@svgr/webpack',
             options: {
-              limit: 10000,
-            },
-          },
-        ],
+              limit: 10000
+            }
+          }
+        ]
       },
       {
         test: /\.jsx?$/,
@@ -43,30 +43,30 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.scss$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: 'style-loader'
           },
           {
-            loader: 'css-loader',
+            loader: 'css-loader'
           },
           {
-            loader: 'sass-loader',
-          },
-        ],
+            loader: 'sass-loader'
+          }
+        ]
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         resolve: {
-          extensions: ['.js', '.jsx'],
+          extensions: ['.js', '.jsx']
         },
         use: {
-          loader: "babel-loader"
+          loader: 'babel-loader'
         }
       }
     ]
@@ -74,21 +74,21 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.png'],
     alias: {
-      '@': path.resolve(__dirname, 'src/'),
-    },
+      '@': path.resolve(__dirname, 'src/')
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './src/index.html'
     }),
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /(en)$/),
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /(en)$/)
   ],
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   output: {
     publicPath: '/',
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'build')
   },
   externals: {
     // global app config object

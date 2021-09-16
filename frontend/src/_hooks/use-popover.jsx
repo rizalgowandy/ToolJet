@@ -43,11 +43,11 @@ const usePopover = (defaultOpen = false) => {
     ref: triggerRef,
     onClick: toggle,
     'aria-haspopup': role,
-    'aria-expanded': open,
+    'aria-expanded': open
   };
   const content = {
     ref: contentRef,
-    role,
+    role
   };
   return [open, trigger, content, setOpen];
 };

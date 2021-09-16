@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-export function Confirm({
+export function Confirm ({
   show, message, onConfirm, onCancel, queryConfirmationData
 }) {
   const [showModal, setShow] = useState(show);
@@ -27,14 +27,14 @@ export function Confirm({
 
   return (
     <>
-      <Modal show={showModal} onHide={handleClose} size="sm" centered={true}>
-        <div className="modal-status bg-danger"></div>
+      <Modal show={showModal} onHide={handleClose} size='sm' centered>
+        <div className='modal-status bg-danger' />
         <Modal.Body>{message}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancel}>
+          <Button variant='secondary' onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirm}>
+          <Button variant='primary' onClick={handleConfirm}>
             Yes
           </Button>
         </Modal.Footer>

@@ -1,8 +1,7 @@
 import React from 'react';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 
-
-export const RadioButton = function RadioButton({
+export const RadioButton = function RadioButton ({
   id,
   width,
   height,
@@ -12,7 +11,6 @@ export const RadioButton = function RadioButton({
   onComponentOptionChanged,
   onEvent
 }) {
-
   const label = component.definition.properties.label.value;
   const textColorProperty = component.definition.styles.textColor;
   const textColor = textColorProperty ? textColorProperty.value : '#000';
@@ -54,28 +52,27 @@ export const RadioButton = function RadioButton({
   } catch (err) { console.log(err); }
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
 
-
-  function onSelect(event) {
-    const selection = event.target.value
+  function onSelect (event) {
+    const selection = event.target.value;
     onComponentOptionChanged(component, 'value', selection);
     if (selection) {
       onEvent('onSelectionChange', { component });
-    } 
+    }
   }
 
   return (
-    <div data-disabled={parsedDisabledState} className="row" style={{ width, height, display:parsedWidgetVisibility ? '' : 'none'  }}  onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
-      <span className="form-check-label form-check-label col-auto py-1" style={{color: textColor}}>{label}</span>
-      <div className="col py-1" onChange={(e) => onSelect(e)}>
+    <div data-disabled={parsedDisabledState} className='row' style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
+      <span className='form-check-label form-check-label col-auto py-1' style={{ color: textColor }}>{label}</span>
+      <div className='col py-1' onChange={(e) => onSelect(e)}>
         {selectOptions.map((option, index) => (
-          <label key={index} class="form-check form-check-inline">
-            <input class="form-check-input" defaultChecked={parsedDefaultValue === option.value} type="radio" value={option.value} name="radio-options"  /> 
-            <span className="form-check-label" style={{color: textColor}}>{option.name}</span>
+          <label key={index} class='form-check form-check-inline'>
+            <input class='form-check-input' defaultChecked={parsedDefaultValue === option.value} type='radio' value={option.value} name='radio-options' />
+            <span className='form-check-label' style={{ color: textColor }}>{option.name}</span>
           </label>
         ))}
       </div>

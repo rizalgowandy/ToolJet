@@ -9,7 +9,7 @@ const Select = ({ options = [], value, hasSearch = false, onChange }) => {
       search={hasSearch}
       onChange={onChange}
       filterOptions={fuzzySearch}
-      placeholder="Select.."
+      placeholder='Select..'
     />
   );
 };

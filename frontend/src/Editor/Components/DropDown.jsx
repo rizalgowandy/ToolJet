@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { resolveReferences, resolveWidgetFieldValue, validateWidget } from '@/_helpers/utils';
 import SelectSearch, { fuzzySearch } from 'react-select-search';
 
-export const DropDown = function DropDown({
+export const DropDown = function DropDown ({
   id,
   width,
   height,
@@ -33,9 +33,9 @@ export const DropDown = function DropDown({
   try {
     parsedDisplayValues = resolveReferences(displayValues, currentState, []);
   } catch (err) { console.log(err); }
-  
+
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
@@ -53,7 +53,6 @@ export const DropDown = function DropDown({
   const currentValueProperty = component.definition.properties.value;
   const value = currentValueProperty ? currentValueProperty.value : '';
   const [currentValue, setCurrentValue] = useState('');
-  
 
   let newValue = value;
   if (currentValueProperty && currentState) {
@@ -64,13 +63,13 @@ export const DropDown = function DropDown({
     validationObject: component.definition.validation,
     widgetValue: currentValue,
     currentState
-  })
+  });
 
   const { isValid, validationError } = validationData;
 
   const currentValidState = currentState?.components[component?.name]?.isValid;
 
-  if(currentValidState !== isValid) {
+  if (currentValidState !== isValid) {
     onComponentOptionChanged(component, 'isValid', isValid);
   }
 
@@ -79,25 +78,25 @@ export const DropDown = function DropDown({
   }, [newValue]);
 
   useEffect(() => {
-    onComponentOptionChanged(component, 'value', currentValue).then(() => onEvent('onSelect', { component }) );
+    onComponentOptionChanged(component, 'value', currentValue).then(() => onEvent('onSelect', { component }));
   }, [currentValue]);
 
   return (
-    <div className="dropdown-widget row g-0" style={{ width, height, display:parsedWidgetVisibility ? '' : 'none' }} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
-      <div className="col-auto">
-        <label style={{marginRight:  label !== '' ? '1rem' : '0.001rem'}} className="form-label py-1">{label}</label>
+    <div className='dropdown-widget row g-0' style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
+      <div className='col-auto'>
+        <label style={{ marginRight: label !== '' ? '1rem' : '0.001rem' }} className='form-label py-1'>{label}</label>
       </div>
-      <div className="col px-0">
+      <div className='col px-0'>
         <SelectSearch
           disabled={parsedDisabledState}
           options={selectOptions}
           value={currentValue}
-          search={true}
+          search
           onChange={(newVal) => {
             setCurrentValue(newVal);
           }}
           filterOptions={fuzzySearch}
-          placeholder="Select.."
+          placeholder='Select..'
         />
       </div>
       <div className={`invalid-feedback ${isValid ? '' : 'd-flex'}`}>{validationError}</div>

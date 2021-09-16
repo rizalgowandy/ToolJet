@@ -3,7 +3,7 @@ import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 import DOMPurify from 'dompurify';
 import Skeleton from 'react-loading-skeleton';
 
-export const Text = function Text({
+export const Text = function Text ({
   id, width, height, component, onComponentClick, currentState
 }) {
   const text = component.definition.properties.text.value;
@@ -37,7 +37,7 @@ export const Text = function Text({
   }
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
@@ -51,11 +51,11 @@ export const Text = function Text({
   };
 
   return (
-    <div data-disabled={parsedDisabledState} className="text-widget" style={computedStyles} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
+    <div data-disabled={parsedDisabledState} className='text-widget' style={computedStyles} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
       {!loadingState && <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data) }} />}
       {loadingState === true && (
         <div>
-          <div className="skeleton-line w-10"></div>
+          <div className='skeleton-line w-10' />
         </div>
       )}
     </div>

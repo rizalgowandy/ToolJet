@@ -3,7 +3,7 @@ import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import { resolveReferences, resolveWidgetFieldValue, validateWidget } from '@/_helpers/utils';
 
-export const Datepicker = function Datepicker({
+export const Datepicker = function Datepicker ({
   id,
   width,
   height,
@@ -23,11 +23,10 @@ export const Datepicker = function Datepicker({
   const parsedDisabledState = typeof disabledState !== 'boolean' ? resolveWidgetFieldValue(disabledState, currentState) : disabledState;
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
-
 
   const enableTime = resolveReferences(enableTimeProp.value, currentState, false);
 
@@ -35,13 +34,13 @@ export const Datepicker = function Datepicker({
   if (enableDateProp) {
     enableDate = resolveReferences(enableDateProp.value, currentState, true);
   }
-  
-  let dateFormat = formatProp
+
+  let dateFormat = formatProp;
   try {
     dateFormat = resolveReferences(formatProp, currentState);
   } catch (err) { console.log(err); }
-  
-  function onDateChange(event) {
+
+  function onDateChange (event) {
     onComponentOptionChanged(component, 'value', event.format(dateFormat.value));
   }
 
@@ -51,23 +50,23 @@ export const Datepicker = function Datepicker({
     validationObject: component.definition.validation,
     widgetValue: value,
     currentState
-  })
+  });
 
   const { isValid, validationError } = validationData;
 
   const currentValidState = currentState?.components[component?.name]?.isValid;
 
-  if(currentValidState !== isValid) {
+  if (currentValidState !== isValid) {
     onComponentOptionChanged(component, 'isValid', isValid);
   }
 
   return (
-    <div data-disabled={parsedDisabledState}  style={{ width, height, display:parsedWidgetVisibility ? '' : 'none'}} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
-      <Datetime 
-        onChange={onDateChange} 
-        timeFormat={enableTime} 
-        closeOnSelect={true}
-        dateFormat={dateFormat.value} 
+    <div data-disabled={parsedDisabledState} style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
+      <Datetime
+        onChange={onDateChange}
+        timeFormat={enableTime}
+        closeOnSelect
+        dateFormat={dateFormat.value}
       />
       <div className={`invalid-feedback ${isValid ? '' : 'd-flex'}`}>{validationError}</div>
     </div>

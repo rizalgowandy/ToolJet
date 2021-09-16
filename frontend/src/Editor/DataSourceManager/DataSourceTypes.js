@@ -60,7 +60,7 @@ export const dataBaseSources = [
       port: { type: 'string' },
       username: { type: 'string' },
       password: { type: 'string', encrypted: true },
-      connection_type: { type: 'options'},
+      connection_type: { type: 'options' },
       connection_string: { type: 'string', encrypted: true }
     }
   },
@@ -155,7 +155,7 @@ export const apiSources = [
       url: { type: 'string' },
       headers: { type: 'array' },
       url_params: { type: 'array' },
-      body: { type: 'array' },
+      body: { type: 'array' }
     },
     exposedVariables: {
       isLoading: {},

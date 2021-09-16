@@ -1,5 +1,5 @@
 
-export function changeOption(_ref, option, value) {
+export function changeOption (_ref, option, value) {
   _ref.setState(
     {
       options: {
@@ -11,4 +11,4 @@ export function changeOption(_ref, option, value) {
       _ref.props.optionsChanged(_ref.state.options);
     }
   );
-};
+}

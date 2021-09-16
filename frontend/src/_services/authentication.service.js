@@ -1,7 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
-import { history } from '@/_helpers';
+import { history, handleResponse } from '@/_helpers';
 import config from 'config';
-import { handleResponse } from '@/_helpers';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -11,13 +10,13 @@ export const authenticationService = {
   signup,
   updateCurrentUserDetails,
   currentUser: currentUserSubject.asObservable(),
-  get currentUserValue() { return currentUserSubject.value; }
+  get currentUserValue () { return currentUserSubject.value; }
 };
 
-function login(email, password) {
+function login (email, password) {
   const requestOptions = {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   };
 
@@ -32,17 +31,17 @@ function login(email, password) {
     });
 }
 
-function updateCurrentUserDetails(details) {
+function updateCurrentUserDetails (details) {
   const currentUserDetails = JSON.parse(localStorage.getItem('currentUser'));
-  const updatedUserDetails = Object.assign({}, currentUserDetails, details)
+  const updatedUserDetails = Object.assign({}, currentUserDetails, details);
   localStorage.setItem('currentUser', JSON.stringify(updatedUserDetails));
   currentUserSubject.next(updatedUserDetails);
 }
 
-function signup(email) {
+function signup (email) {
   const requestOptions = {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email })
   };
 
@@ -53,7 +52,7 @@ function signup(email) {
     });
 }
 
-function logout() {
+function logout () {
   // remove user from local storage to log user out
   localStorage.removeItem('currentUser');
   currentUserSubject.next(null);

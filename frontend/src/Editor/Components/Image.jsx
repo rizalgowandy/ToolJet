@@ -2,7 +2,7 @@ import React from 'react';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 import LazyLoad from 'react-lazyload';
 
-export const Image = function Image({
+export const Image = function Image ({
   id, width, height, component, onComponentClick, currentState
 }) {
   const source = component.definition.properties.source.value;
@@ -14,21 +14,21 @@ export const Image = function Image({
   let data = resolveReferences(source, currentState, null);
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
   if (data === '') data = null;
 
-  function Placeholder() {
+  function Placeholder () {
     return (
-      <div className="skeleton-image" style={{ objectFit: 'contain', width, height }}></div>
+      <div className='skeleton-image' style={{ objectFit: 'contain', width, height }} />
     );
   }
 
   return (
-    <div data-disabled={parsedDisabledState} style={{display:parsedWidgetVisibility ? '' : 'none'}} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
-      <LazyLoad width={width} height={height} placeholder={<Placeholder/>} debounce={500}>
+    <div data-disabled={parsedDisabledState} style={{ display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
+      <LazyLoad width={width} height={height} placeholder={<Placeholder />} debounce={500}>
         <img style={{ objectFit: 'contain' }} src={data} width={width} height={height} />
       </LazyLoad>
     </div>

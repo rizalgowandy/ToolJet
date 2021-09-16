@@ -13,7 +13,7 @@ const layerStyles = {
   height: '100%'
 };
 
-function getItemStyles(delta, item, initialOffset, currentOffset, currentLayout) {
+function getItemStyles (delta, item, initialOffset, currentOffset, currentLayout) {
   if (!initialOffset || !currentOffset) {
     return {
       display: 'none'
@@ -21,7 +21,7 @@ function getItemStyles(delta, item, initialOffset, currentOffset, currentLayout)
   }
   let { x, y } = currentOffset;
 
-  let id = item.id;
+  const id = item.id;
 
   const canvasContainerBoundingRect = document.getElementsByClassName('canvas-container')[0].getBoundingClientRect();
   const realCanvasBoundingRect = document.getElementsByClassName('real-canvas')[0].getBoundingClientRect();
@@ -29,10 +29,8 @@ function getItemStyles(delta, item, initialOffset, currentOffset, currentLayout)
   const realCanvasDelta = realCanvasBoundingRect.x - canvasContainerBoundingRect.x;
 
   if (id) { // Dragging within the canvas
-
     x = Math.round(item.layouts[currentLayout].left + delta.x);
     y = Math.round(item.layouts[currentLayout].top + delta.y);
-    
   } else { // New component being dragged  from components sidebar
     const offsetFromTopOfWindow = realCanvasBoundingRect.top;
     const offsetFromLeftOfWindow = realCanvasBoundingRect.left;
@@ -63,10 +61,10 @@ export const CustomDragLayer = ({ currentLayout }) => {
     isDragging: monitor.isDragging(),
     delta: monitor.getDifferenceFromInitialOffset()
   }));
-  function renderItem() {
+  function renderItem () {
     switch (itemType) {
       case ItemTypes.BOX:
-        return <BoxDragPreview item={item} currentLayout={currentLayout}/>;
+        return <BoxDragPreview item={item} currentLayout={currentLayout} />;
       default:
         return null;
     }

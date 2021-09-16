@@ -41,12 +41,12 @@ const Star = ({
 
   const ref = React.useRef(null);
 
-  function getDecimalPrecision(num) {
+  function getDecimalPrecision (num) {
     const decimalPart = num.toString().split('.')[1];
     return decimalPart ? decimalPart.length : 0;
   }
 
-  function roundValueToPrecision(value, precision) {
+  function roundValueToPrecision (value, precision) {
     if (value == null) {
       return value;
     }
@@ -89,7 +89,7 @@ const Star = ({
 
   if (allowHalfStar) {
     conditionalProps = {
-      onMouseMove: handleMouseMove,
+      onMouseMove: handleMouseMove
     };
   }
 
@@ -112,8 +112,8 @@ const Star = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...conditionalProps}
-        className="star"
-        role="button"
+        className='star'
+        role='button'
       >
         {getIcon(color)}
       </animated.span>
@@ -122,7 +122,7 @@ const Star = ({
 
   if (tooltip) {
     return (
-      <OverlayTrigger placement="bottom" delay={{ show: 250, hide: 400 }} overlay={<Tooltip>{tooltip}</Tooltip>}>
+      <OverlayTrigger placement='bottom' delay={{ show: 250, hide: 400 }} overlay={<Tooltip>{tooltip}</Tooltip>}>
         {getAnimatedStar()}
       </OverlayTrigger>
     );

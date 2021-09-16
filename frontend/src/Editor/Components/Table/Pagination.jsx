@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export const Pagination = function Pagination({
+export const Pagination = function Pagination ({
   onPageIndexChanged,
   serverSide,
   autoGotoPage,
@@ -17,15 +17,14 @@ export const Pagination = function Pagination({
   }, [autoPageCount]);
 
   useEffect(() => {
-
-    if(serverSide && lastActivePageIndex > 0) {
-      setPageCount(lastActivePageIndex)
-    } else if(serverSide || lastActivePageIndex === 0) {
-      setPageIndex(1)
+    if (serverSide && lastActivePageIndex > 0) {
+      setPageCount(lastActivePageIndex);
+    } else if (serverSide || lastActivePageIndex === 0) {
+      setPageIndex(1);
     }
-  }, [serverSide, lastActivePageIndex ])
+  }, [serverSide, lastActivePageIndex]);
 
-  function gotoPage(page) {
+  function gotoPage (page) {
     setPageIndex(page);
     onPageIndexChanged(page);
     if (!serverSide) {
@@ -33,57 +32,53 @@ export const Pagination = function Pagination({
     }
   }
 
-  function goToNextPage() {
+  function goToNextPage () {
     gotoPage(pageIndex + 1);
   }
 
-  function goToPreviousPage() {
+  function goToPreviousPage () {
     gotoPage(pageIndex - 1);
   }
 
   return (
-        <div className="pagination">
-            {!serverSide
-                && <button className="btn btn-sm btn-light mx-2" onClick={() => gotoPage(1)}>
-                {'<<'}
-                </button>
-            }
-            <button
-                className="btn btn-light btn-sm"
-                onClick={() => goToPreviousPage()}
-                disabled={pageIndex === 1}
-            >
-              {'<'}
-            </button>{' '}
-            <small className="p-1 mx-2">
-              
-              {serverSide && 
-                <strong>
-                  {pageIndex}
-                </strong>
-              }
-              {!serverSide && 
-                <strong>
-                  {pageIndex} of {autoPageOptions.length}
-                </strong>
-              }
-            </small>
-            <button
-                className="btn btn-light btn-sm"
-                onClick={() => goToNextPage()}
-                disabled={!autoCanNextPage && !serverSide}
-            >
-              {'>'}
-            </button>{' '}
+    <div className='pagination'>
+      {!serverSide &&
+        <button className='btn btn-sm btn-light mx-2' onClick={() => gotoPage(1)}>
+          {'<<'}
+        </button>}
+      <button
+        className='btn btn-light btn-sm'
+        onClick={() => goToPreviousPage()}
+        disabled={pageIndex === 1}
+      >
+        {'<'}
+      </button>{' '}
+      <small className='p-1 mx-2'>
 
-            {!serverSide
-                && <button
-                className="btn btn-light btn-sm mx-2"
-                onClick={() => gotoPage(pageCount)}
-                >
-                {'>>'}
-                </button>
-            }
-        </div>
+        {serverSide &&
+          <strong>
+            {pageIndex}
+          </strong>}
+        {!serverSide &&
+          <strong>
+            {pageIndex} of {autoPageOptions.length}
+          </strong>}
+      </small>
+      <button
+        className='btn btn-light btn-sm'
+        onClick={() => goToNextPage()}
+        disabled={!autoCanNextPage && !serverSide}
+      >
+        {'>'}
+      </button>{' '}
+
+      {!serverSide &&
+        <button
+          className='btn btn-light btn-sm mx-2'
+          onClick={() => gotoPage(pageCount)}
+        >
+          {'>>'}
+        </button>}
+    </div>
   );
 };

@@ -7,12 +7,12 @@ export const appVersionService = {
   save
 };
 
-function getAll(appId) {
+function getAll (appId) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/apps/${appId}/versions`, requestOptions).then(handleResponse);
 }
 
-function create(appId, versionName) {
+function create (appId, versionName) {
   const body = {
     versionName
   };
@@ -21,7 +21,7 @@ function create(appId, versionName) {
   return fetch(`${config.apiUrl}/apps/${appId}/versions`, requestOptions).then(handleResponse);
 }
 
-function save(appId, versionId, definition) {
+function save (appId, versionId, definition) {
   const body = {
     definition
   };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { datasourceService } from '@/_services';
 
 export const TestConnection = ({ kind, options, onConnectionTestFailed }) => {
@@ -23,13 +22,13 @@ export const TestConnection = ({ kind, options, onConnectionTestFailed }) => {
     setConnectionStatus('unknown');
   }, [options]);
 
-  function testDataSource() {
+  function testDataSource () {
     setTestingStatus(true);
 
     datasourceService.test(kind, options).then(
       (data) => {
         setTestingStatus(false);
-        if(data.status === 'ok') {
+        if (data.status === 'ok') {
           setConnectionStatus('success');
         } else {
           setConnectionStatus('failed');
@@ -47,14 +46,14 @@ export const TestConnection = ({ kind, options, onConnectionTestFailed }) => {
   return (
     <div>
       <ToastContainer containerId={kind} />
-      {connectionStatus === 'failed' && <span className="badge bg-red-lt">could not connect</span>}
+      {connectionStatus === 'failed' && <span className='badge bg-red-lt'>could not connect</span>}
 
-      {connectionStatus === 'success' && <span className="badge bg-green-lt">connection verified</span>}
+      {connectionStatus === 'success' && <span className='badge bg-green-lt'>connection verified</span>}
 
       {connectionStatus === 'unknown' && (
         <Button
-          className="m-2"
-          variant="success"
+          className='m-2'
+          variant='success'
           disabled={isTesting || (!isTesting && !(connectionStatus !== 'success'))}
           onClick={testDataSource}
         >

@@ -13,7 +13,7 @@ export const defaultOptions = {
     database: { value: '' },
     username: { value: '' },
     password: { value: '' },
-    ssl_enabled: { value: true },
+    ssl_enabled: { value: true }
   },
   mssql: {
     host: { value: 'localhost' },
@@ -35,7 +35,7 @@ export const defaultOptions = {
     username: { value: '' },
     password: { value: '' },
     connection_type: { value: 'manual' },
-    connection_string: { value: ''}
+    connection_string: { value: '' }
   },
 
   elasticsearch: {
@@ -81,8 +81,8 @@ export const defaultOptions = {
     access_type: { value: 'read' }
   },
   dynamodb: {
-    region: { value: ''},
-    access_key: { value: ''},
-    secret_key: { value: ''}
+    region: { value: '' },
+    access_key: { value: '' },
+    secret_key: { value: '' }
   }
 };

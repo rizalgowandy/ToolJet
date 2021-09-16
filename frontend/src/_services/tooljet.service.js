@@ -8,7 +8,7 @@ export const tooljetService = {
   finishOnboarding
 };
 
-function fetchMetaData() {
+function fetchMetaData () {
   const requestOptions = {
     method: 'GET',
     headers: authHeader()
@@ -17,7 +17,7 @@ function fetchMetaData() {
   return fetch(`${config.apiUrl}/metadata`, requestOptions).then(handleResponse);
 }
 
-function skipVersion() {
+function skipVersion () {
   const requestOptions = {
     method: 'POST',
     headers: authHeader()
@@ -26,7 +26,7 @@ function skipVersion() {
   return fetch(`${config.apiUrl}/metadata/skip_version`, requestOptions).then(handleResponse);
 }
 
-function skipOnboarding() { 
+function skipOnboarding () {
   const requestOptions = {
     method: 'POST',
     headers: authHeader()
@@ -35,11 +35,11 @@ function skipOnboarding() {
   return fetch(`${config.apiUrl}/metadata/skip_onboarding`, requestOptions).then(handleResponse);
 }
 
-function finishOnboarding(options) { 
+function finishOnboarding (options) {
   const requestOptions = {
     method: 'POST',
     headers: authHeader(),
-    body: JSON.stringify({ 
+    body: JSON.stringify({
       ...options
     })
   };

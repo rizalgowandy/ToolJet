@@ -5,7 +5,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 
-export const DaterangePicker = function DaterangePicker({
+export const DaterangePicker = function DaterangePicker ({
   id,
   width,
   height,
@@ -23,18 +23,17 @@ export const DaterangePicker = function DaterangePicker({
   const disabledState = component.definition.styles?.disabledState?.value ?? false;
   const parsedDisabledState = typeof disabledState !== 'boolean' ? resolveWidgetFieldValue(disabledState, currentState) : disabledState;
 
-
   const [focusedInput, setFocusedInput] = useState(null);
   const [startDate, setStartDate] = useState(startDateProp ? startDateProp.value : null);
   const [endDate, setEndDate] = useState(endDateProp ? endDateProp.value : null);
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
 
-  function onDateChange(dates) {
+  function onDateChange (dates) {
     const start = dates.startDate;
     const end = dates.endDate;
 
@@ -50,23 +49,23 @@ export const DaterangePicker = function DaterangePicker({
     setEndDate(end);
   }
 
-  function focusChanged(focus) {
+  function focusChanged (focus) {
     setFocusedInput(focus);
   }
 
   return (
-    <div style={{ width, height, display:parsedWidgetVisibility ? '' : 'none' }} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
+    <div style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
       <DateRangePicker
         disabled={parsedDisabledState}
         startDate={startDate}
-        startDateId="startDate"
+        startDateId='startDate'
         isOutsideRange={() => false}
         endDate={endDate}
-        endDateId="endDate"
+        endDateId='endDate'
         onDatesChange={(dates) => onDateChange(dates)}
         onFocusChange={(focus) => focusChanged(focus)}
         focusedInput={focusedInput}
-        hideKeyboardShortcutsPanel={true}
+        hideKeyboardShortcutsPanel
       />
     </div>
   );

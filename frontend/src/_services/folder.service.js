@@ -7,12 +7,12 @@ export const folderService = {
   addToFolder
 };
 
-function getAll() {
+function getAll () {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/folders/`, requestOptions).then(handleResponse);
 }
 
-function create(name) {
+function create (name) {
   const body = {
     name
   };
@@ -21,7 +21,7 @@ function create(name) {
   return fetch(`${config.apiUrl}/folders`, requestOptions).then(handleResponse);
 }
 
-function addToFolder(appId, folderId) {
+function addToFolder (appId, folderId) {
   const body = {
     app_id: appId,
     folder_id: folderId

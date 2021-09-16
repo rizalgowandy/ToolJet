@@ -16,20 +16,17 @@ export const appService = {
   setSlug
 };
 
-function getConfig() {
+function getConfig () {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/config`, requestOptions).then(handleResponse);
 }
 
-function getAll(page, folder) {
+function getAll (page, folder) {
   const requestOptions = { method: 'GET', headers: authHeader() };
-  if (page === 0)
-    return fetch(`${config.apiUrl}/apps`, requestOptions).then(handleResponse);
-  else
-    return fetch(`${config.apiUrl}/apps?page=${page}&folder=${folder || ''}`, requestOptions).then(handleResponse);
+  if (page === 0) { return fetch(`${config.apiUrl}/apps`, requestOptions).then(handleResponse); } else { return fetch(`${config.apiUrl}/apps?page=${page}&folder=${folder || ''}`, requestOptions).then(handleResponse); }
 }
 
-function createApp() {
+function createApp () {
   const body = {
   };
 
@@ -37,37 +34,37 @@ function createApp() {
   return fetch(`${config.apiUrl}/apps`, requestOptions).then(handleResponse);
 }
 
-function getApp(id) {
+function getApp (id) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/apps/${id}`, requestOptions).then(handleResponse);
 }
 
-function deleteApp(id) {
+function deleteApp (id) {
   const requestOptions = { method: 'DELETE', headers: authHeader() };
   return fetch(`${config.apiUrl}/apps/${id}`, requestOptions).then(handleResponse);
 }
 
-function getAppBySlug(slug) {
+function getAppBySlug (slug) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/apps/slugs/${slug}`, requestOptions).then(handleResponse);
 }
 
-function getAppByVersion(appId, versionId) {
+function getAppByVersion (appId, versionId) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/apps/${appId}/versions/${versionId}`, requestOptions).then(handleResponse);
 }
 
-function saveApp(id, attributes) {
+function saveApp (id, attributes) {
   const requestOptions = { method: 'PUT', headers: authHeader(), body: JSON.stringify({ app: attributes }) };
   return fetch(`${config.apiUrl}/apps/${id}`, requestOptions).then(handleResponse);
 }
 
-function getAppUsers(id) {
+function getAppUsers (id) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/apps/${id}/users`, requestOptions).then(handleResponse);
 }
 
-function createAppUser(app_id, org_user_id, role) {
+function createAppUser (app_id, org_user_id, role) {
   const body = {
     app_id,
     org_user_id,
@@ -78,12 +75,12 @@ function createAppUser(app_id, org_user_id, role) {
   return fetch(`${config.apiUrl}/app_users`, requestOptions).then(handleResponse);
 }
 
-function setVisibility(appId, visibility) {
+function setVisibility (appId, visibility) {
   const requestOptions = { method: 'PUT', headers: authHeader(), body: JSON.stringify({ app: { is_public: visibility } }) };
   return fetch(`${config.apiUrl}/apps/${appId}`, requestOptions).then(handleResponse);
 }
 
-function setSlug(appId, slug) {
+function setSlug (appId, slug) {
   const requestOptions = { method: 'PUT', headers: authHeader(), body: JSON.stringify({ app: { slug: slug } }) };
   return fetch(`${config.apiUrl}/apps/${appId}`, requestOptions).then(handleResponse);
 }

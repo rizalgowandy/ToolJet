@@ -14,14 +14,14 @@ const OAuth = ({
   auth_url,
   header_prefix,
   add_token_to,
-  optionchanged,
+  optionchanged
 }) => {
   return (
     <>
       <Select
         options={[
           { name: 'None', value: 'none' },
-          { name: 'OAuth 2.0', value: 'oauth2' },
+          { name: 'OAuth 2.0', value: 'oauth2' }
         ]}
         value={grant_type}
         onChange={(value) => optionchanged('auth_type', value)}

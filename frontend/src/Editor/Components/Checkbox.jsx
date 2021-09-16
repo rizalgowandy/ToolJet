@@ -1,7 +1,7 @@
 import React from 'react';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 
-export const Checkbox = function Checkbox({
+export const Checkbox = function Checkbox ({
   id,
   width,
   height,
@@ -11,7 +11,6 @@ export const Checkbox = function Checkbox({
   onComponentOptionChanged,
   onEvent
 }) {
-
   const label = component.definition.properties.label.value;
   const textColorProperty = component.definition.styles.textColor;
   const textColor = textColorProperty ? textColorProperty.value : '#000';
@@ -21,12 +20,12 @@ export const Checkbox = function Checkbox({
   const parsedDisabledState = typeof disabledState !== 'boolean' ? resolveWidgetFieldValue(disabledState, currentState) : disabledState;
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
 
-  function toggleValue(e) {
+  function toggleValue (e) {
     const checked = e.target.checked;
     onComponentOptionChanged(component, 'value', checked);
     if (checked) {
@@ -37,16 +36,16 @@ export const Checkbox = function Checkbox({
   }
 
   return (
-    <div className="row" style={{ width, height, display:parsedWidgetVisibility ? '' : 'none' }} onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}>
-      <label className="my-auto mx-2 form-check form-check-inline">
+    <div className='row' style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }} onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}>
+      <label className='my-auto mx-2 form-check form-check-inline'>
         <input
-          className="form-check-input"
-          type="checkbox"
+          className='form-check-input'
+          type='checkbox'
           onClick={(e) => {
             toggleValue(e);
           }}
         />
-        <span className="form-check-label" style={{color: textColor}}>{label}</span>
+        <span className='form-check-label' style={{ color: textColor }}>{label}</span>
       </label>
     </div>
   );

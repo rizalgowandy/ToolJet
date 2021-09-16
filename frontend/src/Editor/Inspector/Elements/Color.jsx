@@ -19,8 +19,8 @@ export const Color = ({
   const displayName = paramMeta.displayName || param.name;
 
   return (
-    <div className="field mb-3">
-      <ToolTip label={displayName} meta={paramMeta}/>
+    <div className='field mb-3'>
+      <ToolTip label={displayName} meta={paramMeta} />
 
       {showPicker && (
         <div>
@@ -33,10 +33,9 @@ export const Color = ({
         </div>
       )}
 
-      <div className="row mx-0 form-control color-picker-input" onClick={() => setShowPicker(true)}>
-        <div className="col-auto" style={{float: 'right', width: '20px', height: '20px', backgroundColor: definition.value}}>
-        </div>
-        <div className="col">
+      <div className='row mx-0 form-control color-picker-input' onClick={() => setShowPicker(true)}>
+        <div className='col-auto' style={{ float: 'right', width: '20px', height: '20px', backgroundColor: definition.value }} />
+        <div className='col'>
           {definition.value}
         </div>
       </div>

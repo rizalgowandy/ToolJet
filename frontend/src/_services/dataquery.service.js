@@ -10,12 +10,12 @@ export const dataqueryService = {
   preview
 };
 
-function getAll(appId) {
+function getAll (appId) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/data_queries?app_id=${appId}`, requestOptions).then(handleResponse);
 }
 
-function create(app_id, name, kind, options, data_source_id) {
+function create (app_id, name, kind, options, data_source_id) {
   const body = {
     app_id,
     name,
@@ -28,7 +28,7 @@ function create(app_id, name, kind, options, data_source_id) {
   return fetch(`${config.apiUrl}/data_queries`, requestOptions).then(handleResponse);
 }
 
-function update(id, name, options) {
+function update (id, name, options) {
   const body = {
     options,
     name
@@ -38,12 +38,12 @@ function update(id, name, options) {
   return fetch(`${config.apiUrl}/data_queries/${id}`, requestOptions).then(handleResponse);
 }
 
-function del(id) {
+function del (id) {
   const requestOptions = { method: 'DELETE', headers: authHeader() };
   return fetch(`${config.apiUrl}/data_queries/${id}`, requestOptions).then(handleResponse);
 }
 
-function run(queryId, options) {
+function run (queryId, options) {
   const body = {
     options: options
   };
@@ -52,7 +52,7 @@ function run(queryId, options) {
   return fetch(`${config.apiUrl}/data_queries/${queryId}/run`, requestOptions).then(handleResponse);
 }
 
-function preview(query, options) {
+function preview (query, options) {
   const body = {
     query,
     options: options

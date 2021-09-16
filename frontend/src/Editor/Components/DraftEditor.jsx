@@ -9,11 +9,11 @@ const styleMap = {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
     fontSize: 16,
-    padding: 2,
-  },
+    padding: 2
+  }
 };
 
-function getBlockStyle(block) {
+function getBlockStyle (block) {
   switch (block.getType()) {
     case 'blockquote':
       return 'RichEditor-blockquote';
@@ -23,7 +23,7 @@ function getBlockStyle(block) {
 }
 
 class StyleButton extends React.Component {
-  constructor() {
+  constructor () {
     super();
     this.onToggle = (e) => {
       e.preventDefault();
@@ -31,7 +31,7 @@ class StyleButton extends React.Component {
     };
   }
 
-  render() {
+  render () {
     let className = 'RichEditor-styleButton';
     if (this.props.active) {
       className += ' RichEditor-activeButton';
@@ -53,21 +53,21 @@ const BLOCK_TYPES = [
   { label: 'H5', style: 'header-five' },
   { label: 'H6', style: 'header-six' },
   {
-    label: <img src="/assets/images/icons/rich-text-editor/blockquote.svg" style={{ height: '16px' }} />,
-    style: 'blockquote',
+    label: <img src='/assets/images/icons/rich-text-editor/blockquote.svg' style={{ height: '16px' }} />,
+    style: 'blockquote'
   },
   {
-    label: <img src="/assets/images/icons/rich-text-editor/ul.svg" style={{ height: '16px' }} />,
-    style: 'unordered-list-item',
+    label: <img src='/assets/images/icons/rich-text-editor/ul.svg' style={{ height: '16px' }} />,
+    style: 'unordered-list-item'
   },
   {
-    label: <img src="/assets/images/icons/rich-text-editor/ol.svg" style={{ height: '16px' }} />,
-    style: 'ordered-list-item',
+    label: <img src='/assets/images/icons/rich-text-editor/ol.svg' style={{ height: '16px' }} />,
+    style: 'ordered-list-item'
   },
   {
-    label: <img src="/assets/images/icons/rich-text-editor/codeblock.svg" style={{ height: '16px' }} />,
-    style: 'code-block',
-  },
+    label: <img src='/assets/images/icons/rich-text-editor/codeblock.svg' style={{ height: '16px' }} />,
+    style: 'code-block'
+  }
 ];
 
 const BlockStyleControls = (props) => {
@@ -90,19 +90,19 @@ const BlockStyleControls = (props) => {
   );
 };
 
-var INLINE_STYLES = [
+const INLINE_STYLES = [
   {
-    label: <img src="/assets/images/icons/rich-text-editor/bold.svg" style={{ height: '16px' }} />,
-    style: 'BOLD',
+    label: <img src='/assets/images/icons/rich-text-editor/bold.svg' style={{ height: '16px' }} />,
+    style: 'BOLD'
   },
   {
-    label: <img src="/assets/images/icons/rich-text-editor/italic.svg" style={{ height: '16px' }} />,
-    style: 'ITALIC',
+    label: <img src='/assets/images/icons/rich-text-editor/italic.svg' style={{ height: '16px' }} />,
+    style: 'ITALIC'
   },
   {
-    label: <img src="/assets/images/icons/rich-text-editor/underline.svg" style={{ height: '16px' }} />,
-    style: 'UNDERLINE',
-  },
+    label: <img src='/assets/images/icons/rich-text-editor/underline.svg' style={{ height: '16px' }} />,
+    style: 'UNDERLINE'
+  }
 ];
 
 const InlineStyleControls = (props) => {
@@ -124,13 +124,13 @@ const InlineStyleControls = (props) => {
 };
 
 class DraftEditor extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = { editorState: EditorState.createEmpty() };
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
-      let html = stateToHTML(editorState.getCurrentContent());
+      const html = stateToHTML(editorState.getCurrentContent());
       this.props.handleChange(html);
       this.setState({ editorState });
     };
@@ -141,7 +141,7 @@ class DraftEditor extends React.Component {
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
   }
 
-  _handleKeyCommand(command, editorState) {
+  _handleKeyCommand (command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       this.onChange(newState);
@@ -150,7 +150,7 @@ class DraftEditor extends React.Component {
     return false;
   }
 
-  _mapKeyToEditorCommand(e) {
+  _mapKeyToEditorCommand (e) {
     if (e.keyCode === 9 /* TAB */) {
       const newEditorState = RichUtils.onTab(e, this.state.editorState, 4 /* maxDepth */);
       if (newEditorState !== this.state.editorState) {
@@ -161,21 +161,21 @@ class DraftEditor extends React.Component {
     return getDefaultKeyBinding(e);
   }
 
-  _toggleBlockType(blockType) {
+  _toggleBlockType (blockType) {
     this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
   }
 
-  _toggleInlineStyle(inlineStyle) {
+  _toggleInlineStyle (inlineStyle) {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle));
   }
 
-  render() {
+  render () {
     const { editorState } = this.state;
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
     let className = 'RichEditor-editor';
-    var contentState = editorState.getCurrentContent();
+    const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ' RichEditor-hidePlaceholder';
@@ -183,8 +183,8 @@ class DraftEditor extends React.Component {
     }
 
     return (
-      <div className="RichEditor-root">
-        <div className="RichEditor-controls">
+      <div className='RichEditor-root'>
+        <div className='RichEditor-controls'>
           <BlockStyleControls editorState={editorState} onToggle={this.toggleBlockType} />
           <InlineStyleControls editorState={editorState} onToggle={this.toggleInlineStyle} />
         </div>
@@ -197,8 +197,8 @@ class DraftEditor extends React.Component {
             keyBindingFn={this.mapKeyToEditorCommand}
             onChange={this.onChange}
             placeholder={this.props.placeholder}
-            ref="editor"
-            spellCheck={true}
+            ref='editor'
+            spellCheck
           />
         </div>
       </div>

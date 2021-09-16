@@ -3,22 +3,22 @@ import usePopover from '../../_hooks/use-popover';
 import { LeftSidebarItem } from './sidebar-item';
 
 export const LeftSidebarZoom = ({ onZoomChanged }) => {
-  const [open, trigger, content, setOpen] = usePopover(false)
-  const [text, setText] = React.useState(100)
+  const [open, trigger, content, setOpen] = usePopover(false);
+  const [text, setText] = React.useState(100);
   return (
     <>
       <LeftSidebarItem tip='Select zoom level' {...trigger} text={`${text} %`} className={`left-sidebar-item sidebar-zoom ${open && 'active'}`} />
       <div {...content} className={`card popover zoom-popover ${open ? 'show' : 'hide'}`}>
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table table-vcenter table-nowrap">
+        <div className='card-body'>
+          <div className='table-responsive'>
+            <table className='table table-vcenter table-nowrap'>
               <tbody>
                 <tr
-                  role="button"
+                  role='button'
                   onClick={() => {
-                    setText(100)
-                    onZoomChanged(1)
-                    setOpen(false)
+                    setText(100);
+                    onZoomChanged(1);
+                    setOpen(false);
                   }}
                 >
                   <td>
@@ -26,11 +26,11 @@ export const LeftSidebarZoom = ({ onZoomChanged }) => {
                   </td>
                 </tr>
                 <tr
-                  role="button"
+                  role='button'
                   onClick={() => {
-                    setText(90)
-                    onZoomChanged(0.9)
-                    setOpen(false)
+                    setText(90);
+                    onZoomChanged(0.9);
+                    setOpen(false);
                   }}
                 >
                   <td>
@@ -38,11 +38,11 @@ export const LeftSidebarZoom = ({ onZoomChanged }) => {
                   </td>
                 </tr>
                 <tr
-                  role="button"
+                  role='button'
                   onClick={() => {
-                    setText(80)
-                    onZoomChanged(0.8)
-                    setOpen(false)
+                    setText(80);
+                    onZoomChanged(0.8);
+                    setOpen(false);
                   }}
                 >
                   <td>
@@ -50,11 +50,11 @@ export const LeftSidebarZoom = ({ onZoomChanged }) => {
                   </td>
                 </tr>
                 <tr
-                  role="button"
+                  role='button'
                   onClick={() => {
-                    setText(70)
-                    onZoomChanged(0.7)
-                    setOpen(false)
+                    setText(70);
+                    onZoomChanged(0.7);
+                    setOpen(false);
                   }}
                 >
                   <td>
@@ -62,11 +62,11 @@ export const LeftSidebarZoom = ({ onZoomChanged }) => {
                   </td>
                 </tr>
                 <tr
-                  role="button"
+                  role='button'
                   onClick={() => {
-                    setText(60)
-                    onZoomChanged(0.6)
-                    setOpen(false)
+                    setText(60);
+                    onZoomChanged(0.6);
+                    setOpen(false);
                   }}
                 >
                   <td>
@@ -79,5 +79,5 @@ export const LeftSidebarZoom = ({ onZoomChanged }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};

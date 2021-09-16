@@ -6,7 +6,7 @@ import { SubContainer } from '../SubContainer';
 import { ConfigHandle } from '../ConfigHandle';
 import { resolveWidgetFieldValue, resolveReferences } from '../../_helpers/utils';
 
-export const Modal = function Modal({
+export const Modal = function Modal ({
   id,
   component,
   height,
@@ -33,7 +33,7 @@ export const Modal = function Modal({
     showModal(canShowModel);
   }, [containerProps.currentState.components[component.name]]);
 
-  function hideModal() {
+  function hideModal () {
     containerProps.onComponentOptionChanged(component, 'show', false);
     showModal(false);
   }
@@ -41,46 +41,45 @@ export const Modal = function Modal({
   return (
     <div data-disabled={parsedDisabledState}>
       <BootstrapModal
-        contentClassName="modal-component"
+        contentClassName='modal-component'
         show={show}
         container={document.getElementsByClassName('canvas-area')[0]}
         size={size}
-        backdrop={true}
-        keyboard={true}
+        backdrop
+        keyboard
         enforceFocus={false}
         animation={false}
         onEscapeKeyDown={() => showModal(false)}
       >
-        {containerProps.mode === 'edit' && 
-          <ConfigHandle 
-            id={id} 
+        {containerProps.mode === 'edit' &&
+          <ConfigHandle
+            id={id}
             component={component}
             configHandleClicked={containerProps.onComponentClick}
-          /> 
-        }
+          />}
         <BootstrapModal.Header>
           <BootstrapModal.Title>
             {title}
           </BootstrapModal.Title>
           <div>
-            <Button variant="light" size="sm" onClick={hideModal}>
+            <Button variant='light' size='sm' onClick={hideModal}>
               x
             </Button>
           </div>
         </BootstrapModal.Header>
 
         <BootstrapModal.Body style={{ height }} ref={parentRef}>
-            <SubContainer
-              parent={id}
-              {...containerProps}
-              parentRef={parentRef}
-            />
-            <SubCustomDragLayer
-              snapToGrid={true}
-              parentRef={parentRef}
-              parent={id}
-              currentLayout={containerProps.currentLayout}
-            />
+          <SubContainer
+            parent={id}
+            {...containerProps}
+            parentRef={parentRef}
+          />
+          <SubCustomDragLayer
+            snapToGrid
+            parentRef={parentRef}
+            parent={id}
+            currentLayout={containerProps.currentLayout}
+          />
         </BootstrapModal.Body>
       </BootstrapModal>
     </div>

@@ -1,8 +1,8 @@
 export const openapiService = {
-  fetchSpecFromUrl,
+  fetchSpecFromUrl
 };
 
-function fetchSpecFromUrl(url) {
+function fetchSpecFromUrl (url) {
   const requestOptions = { method: 'GET' };
   return fetch(url, requestOptions);
 }

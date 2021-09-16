@@ -10,12 +10,12 @@ export const datasourceService = {
   fetchOauth2BaseUrl
 };
 
-function getAll(appId) {
+function getAll (appId) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/data_sources?app_id=${appId}`, requestOptions).then(handleResponse);
 }
 
-function create(app_id, name, kind, options) {
+function create (app_id, name, kind, options) {
   const body = {
     app_id,
     name,
@@ -27,7 +27,7 @@ function create(app_id, name, kind, options) {
   return fetch(`${config.apiUrl}/data_sources`, requestOptions).then(handleResponse);
 }
 
-function save(id, app_id, name, options) {
+function save (id, app_id, name, options) {
   const body = {
     app_id,
     name,
@@ -38,7 +38,7 @@ function save(id, app_id, name, options) {
   return fetch(`${config.apiUrl}/data_sources/${id}`, requestOptions).then(handleResponse);
 }
 
-function test(kind, options) {
+function test (kind, options) {
   const body = {
     kind,
     options
@@ -48,12 +48,12 @@ function test(kind, options) {
   return fetch(`${config.apiUrl}/data_sources/test_connection`, requestOptions).then(handleResponse);
 }
 
-function setOauth2Token(dataSourceId, body) {
+function setOauth2Token (dataSourceId, body) {
   const requestOptions = { method: 'POST', headers: authHeader(), body: JSON.stringify(body) };
   return fetch(`${config.apiUrl}/data_sources/${dataSourceId}/authorize_oauth2`, requestOptions).then(handleResponse);
 }
 
-function fetchOauth2BaseUrl(provider) {
+function fetchOauth2BaseUrl (provider) {
   const requestOptions = { method: 'POST', headers: authHeader(), body: JSON.stringify({ provider }) };
   return fetch(`${config.apiUrl}/data_sources/fetch_oauth2_base_url`, requestOptions).then(handleResponse);
 }

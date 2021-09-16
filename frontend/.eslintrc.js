@@ -1,11 +1,18 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    mocha: true
   },
-  
-  parser: 'babel-eslint',
-
+  extends: [
+    'plugin:react/recommended',
+    'standard',
+    'semistandard',
+    'plugin:react-hooks/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:cypress/recommended'
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -13,25 +20,22 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  extends: [
-    'plugin:react/recommended',
-    'prettier',
-    'airbnb-base/legacy'
-  ],
-  plugins: ['html', 'react', 'prettier', 'babel'],
+  plugins: ['react', 'prettier'],
   rules: {
-    "react/prop-types": 0,
-    "no-underscore-dangle":  ["error", { "allow": ["_self"] }],
-    "max-len": 0,
-    "no-bitwise": 0,
-    "no-use-before-define": ["error", { "variables": false, "functions": false }],
-    "no-nested-ternary": 0,
-    "no-loop-func": 0,
-    
+    'react/prop-types': 0,
+    'no-underscore-dangle': ['error', { allow: ['_self', '_ref'] }],
+    'space-before-function-paren': ['error', 'always'],
+    camelcase: ['warn', { ignoreDestructuring: true, properties: 'never', allow: ['app_id'] }],
+    'quote-props': ['error', 'as-needed', { numbers: true }],
+    'no-new-func': 'off',
+    'prefer-regex-literals': 'off',
+    'multiline-ternary': ['error', 'never'],
+    'import/no-named-as-default': 0
   },
   settings: {
     react: {
-      version: "detect"
-    }
+      version: 'detect'
+    },
+    'import/resolver': 'webpack'
   }
 };

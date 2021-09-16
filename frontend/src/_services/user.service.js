@@ -7,15 +7,15 @@ export const userService = {
   deleteUser,
   setPasswordFromToken,
   updateCurrentUser,
-  changePassword,
+  changePassword
 };
 
-function getAll() {
+function getAll () {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
 }
 
-function createUser(first_name, last_name, email, role) {
+function createUser (first_name, last_name, email, role) {
   const body = {
     first_name,
     last_name,
@@ -27,12 +27,12 @@ function createUser(first_name, last_name, email, role) {
   return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
 }
 
-function deleteUser(id) {
+function deleteUser (id) {
   const requestOptions = { method: 'DELETE', headers: authHeader(), body: JSON.stringify({}) };
   return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
-function setPasswordFromToken({ token, password, organization, newSignup, firstName, lastName }) {
+function setPasswordFromToken ({ token, password, organization, newSignup, firstName, lastName }) {
   const body = {
     token,
     password,
@@ -46,13 +46,13 @@ function setPasswordFromToken({ token, password, organization, newSignup, firstN
   return fetch(`${config.apiUrl}/users/set_password_from_token`, requestOptions).then(handleResponse);
 }
 
-function updateCurrentUser(firstName , lastName) {
+function updateCurrentUser (firstName, lastName) {
   const body = { firstName, lastName };
   const requestOptions = { method: 'PATCH', headers: authHeader(), body: JSON.stringify(body) };
   return fetch(`${config.apiUrl}/users/update`, requestOptions).then(handleResponse);
 }
 
-function changePassword(currentPassword, newPassword) {
+function changePassword (currentPassword, newPassword) {
   const body = { currentPassword, newPassword };
   const requestOptions = { method: 'PATCH', headers: authHeader(), body: JSON.stringify(body) };
   return fetch(`${config.apiUrl}/users/change_password`, requestOptions).then(handleResponse);

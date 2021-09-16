@@ -30,15 +30,15 @@ export const defaultOptions = {
     operation: 'read'
   },
   slack: {
-    
+
   },
   dynamodb: {
-    
+
   },
   airtable: {
-    
+
   },
   mssql: {
-    
+
   }
 };

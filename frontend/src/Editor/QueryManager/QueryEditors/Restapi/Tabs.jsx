@@ -6,34 +6,34 @@ import Headers from './TabHeaders';
 import Params from './TabParams';
 import Body from './TabBody';
 
-function ControlledTabs({ options, currentState, theme, onChange, removeKeyValuePair }) {
+function ControlledTabs ({ options, currentState, theme, onChange, removeKeyValuePair }) {
   const [key, setKey] = React.useState('headers');
 
   return (
-    <Tabs activeKey={key} onSelect={(k) => setKey(k)} className="mb-3">
-      <Tab eventKey="headers" title="Headers">
+    <Tabs activeKey={key} onSelect={(k) => setKey(k)} className='mb-3'>
+      <Tab eventKey='headers' title='Headers'>
         <Headers
           removeKeyValuePair={removeKeyValuePair}
           onChange={onChange}
-          options={options['headers']}
+          options={options.headers}
           currentState={currentState}
           theme={theme}
         />
       </Tab>
-      <Tab eventKey="params" title="Params">
+      <Tab eventKey='params' title='Params'>
         <Params
           removeKeyValuePair={removeKeyValuePair}
           onChange={onChange}
-          options={options['url_params']}
+          options={options.url_params}
           currentState={currentState}
           theme={theme}
         />
       </Tab>
-      <Tab eventKey="body" title="Body">
+      <Tab eventKey='body' title='Body'>
         <Body
           removeKeyValuePair={removeKeyValuePair}
           onChange={onChange}
-          options={options['body']}
+          options={options.body}
           currentState={currentState}
           theme={theme}
         />

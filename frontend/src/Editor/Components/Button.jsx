@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
-var tinycolor = require("tinycolor2");
+const tinycolor = require('tinycolor2');
 
-export const Button = function Button({
+export const Button = function Button ({
   id, width, height, component, onComponentClick, currentState
 }) {
   console.log('currentState', currentState);
@@ -25,7 +25,7 @@ export const Button = function Button({
 
   const parsedDisabledState = typeof disabledState !== 'boolean' ? resolveWidgetFieldValue(disabledState, currentState) : disabledState;
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
@@ -36,7 +36,7 @@ export const Button = function Button({
     width,
     height,
     display: parsedWidgetVisibility ? '' : 'none',
-    '--tblr-btn-color-darker': tinycolor(backgroundColor).darken(8).toString() 
+    '--tblr-btn-color-darker': tinycolor(backgroundColor).darken(8).toString()
   };
 
   return (
@@ -44,7 +44,7 @@ export const Button = function Button({
       disabled={parsedDisabledState}
       className={`jet-button btn btn-primary p-1 ${loadingState === true ? ' btn-loading' : ''}`}
       style={computedStyles}
-      onClick={(event) => {event.stopPropagation();  onComponentClick(id, component)}}
+      onClick={(event) => { event.stopPropagation(); onComponentClick(id, component); }}
     >
       {text}
     </button>

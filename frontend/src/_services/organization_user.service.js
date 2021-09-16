@@ -7,7 +7,7 @@ export const organizationUserService = {
   changeRole
 };
 
-function create(first_name, last_name, email, role) {
+function create (first_name, last_name, email, role) {
   const body = {
     first_name,
     last_name,
@@ -19,7 +19,7 @@ function create(first_name, last_name, email, role) {
   return fetch(`${config.apiUrl}/organization_users`, requestOptions).then(handleResponse);
 }
 
-function changeRole(id, role) {
+function changeRole (id, role) {
   const body = {
     role
   };
@@ -28,7 +28,7 @@ function changeRole(id, role) {
   return fetch(`${config.apiUrl}/organization_users/${id}/change_role`, requestOptions).then(handleResponse);
 }
 
-function archive(id) {
+function archive (id) {
   const requestOptions = { method: 'POST', headers: authHeader() };
   return fetch(`${config.apiUrl}/organization_users/${id}/archive`, requestOptions).then(handleResponse);
 }

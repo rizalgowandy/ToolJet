@@ -5,7 +5,7 @@ export const organizationService = {
   getUsers
 };
 
-function getUsers(id) {
+function getUsers (id) {
   const requestOptions = { method: 'GET', headers: authHeader() };
   return fetch(`${config.apiUrl}/organizations/users`, requestOptions).then(handleResponse);
 }

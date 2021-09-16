@@ -48,12 +48,12 @@ const DynamicForm = ({ schema, optionchanged, createDataSource, options, isSavin
           value: options[$key].value,
           ...(type === 'textarea' && { rows: $rows }),
           ...(helpText && { helpText }),
-          onChange: (e) => optionchanged($key, e.target.value),
+          onChange: (e) => optionchanged($key, e.target.value)
         };
       case 'toggle':
         return {
           defaultChecked: options[$key],
-          onChange: () => optionchanged($key, !options[$key]),
+          onChange: () => optionchanged($key, !options[$key])
         };
       case 'dropdown':
       case 'dropdown-component-flip':
@@ -61,13 +61,13 @@ const DynamicForm = ({ schema, optionchanged, createDataSource, options, isSavin
           options: $options,
           value: options[$key]?.value,
           hasSearch: $hasSearch,
-          onChange: (value) => optionchanged($key, value),
+          onChange: (value) => optionchanged($key, value)
         };
       case 'react-component-headers':
         return {
           getter: $key,
           options: options[$key].value,
-          optionchanged,
+          optionchanged
         };
       case 'react-component-oauth-authentication':
         return {
@@ -82,7 +82,7 @@ const DynamicForm = ({ schema, optionchanged, createDataSource, options, isSavin
           scopes: options.scopes.value,
           auth_url: options.auth_url.value,
           custom_auth_params: options.custom_auth_params.value,
-          optionchanged,
+          optionchanged
         };
       case 'react-component-google-sheets':
       case 'react-component-slack':
@@ -94,24 +94,24 @@ const DynamicForm = ({ schema, optionchanged, createDataSource, options, isSavin
 
   const getLayout = (obj) => {
     return (
-      <div className="row">
+      <div className='row'>
         {Object.keys(obj).map((key) => {
           const { $label, type } = obj[key];
 
           const Element = getElement(type);
 
           return (
-            <div className="col-md-12 my-2">
+            <div className='col-md-12 my-2'>
               {$label && (
-                <label className="form-label">
+                <label className='form-label'>
                   {$label}
                   {type === 'password' && (
-                    <small className="text-green mx-2">
+                    <small className='text-green mx-2'>
                       <img
-                        className="mx-2 encrypted-icon"
-                        src="/assets/images/icons/padlock.svg"
-                        width="12"
-                        height="12"
+                        className='mx-2 encrypted-icon'
+                        src='/assets/images/icons/padlock.svg'
+                        width='12'
+                        height='12'
                       />
                       Encrypted
                     </small>
@@ -130,9 +130,9 @@ const DynamicForm = ({ schema, optionchanged, createDataSource, options, isSavin
 
   if (flipComponentDropdown) {
     return (
-      <div className="row">
-        <div className="col-md-12 my-2">
-          {flipComponentDropdown.$label && <label className="form-label">{flipComponentDropdown.$label}</label>}
+      <div className='row'>
+        <div className='col-md-12 my-2'>
+          {flipComponentDropdown.$label && <label className='form-label'>{flipComponentDropdown.$label}</label>}
           <Select {...getElementProps(flipComponentDropdown)} />
         </div>
         {getLayout(schema.properties[options[flipComponentDropdown.$key].value])}

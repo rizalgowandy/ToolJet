@@ -12,14 +12,14 @@ const layerStyles = {
   height: '100%'
 };
 
-function getItemStyles(delta, item, initialOffset, currentOffset, parentRef, parent, currentLayout) {
+function getItemStyles (delta, item, initialOffset, currentOffset, parentRef, parent, currentLayout) {
   if (!initialOffset || !currentOffset || !parentRef.current) {
     return {
       display: 'none'
     };
   }
 
-  if ( parent !== item.parent ) {
+  if (parent !== item.parent) {
     return {
       display: 'none'
     };
@@ -27,7 +27,7 @@ function getItemStyles(delta, item, initialOffset, currentOffset, parentRef, par
 
   let { x, y } = currentOffset;
 
-  let id = item.id;
+  const id = item.id;
 
   const realCanvasBoundingRect = parentRef.current.getElementsByClassName('real-canvas')[0].getBoundingClientRect();
 
@@ -51,7 +51,7 @@ function getItemStyles(delta, item, initialOffset, currentOffset, parentRef, par
     WebkitTransform: transform
   };
 }
-export const SubCustomDragLayer = ({parentRef, parent, currentLayout}) => {
+export const SubCustomDragLayer = ({ parentRef, parent, currentLayout }) => {
   const {
     itemType, isDragging, item, initialOffset, currentOffset, delta
   } = useDragLayer((monitor) => ({
@@ -62,7 +62,7 @@ export const SubCustomDragLayer = ({parentRef, parent, currentLayout}) => {
     isDragging: monitor.isDragging(),
     delta: monitor.getDifferenceFromInitialOffset()
   }));
-  function renderItem() {
+  function renderItem () {
     switch (itemType) {
       case ItemTypes.BOX:
         return <BoxDragPreview item={item} currentLayout={currentLayout} />;
@@ -75,7 +75,7 @@ export const SubCustomDragLayer = ({parentRef, parent, currentLayout}) => {
   }
 
   return (
-    <div style={layerStyles} className="sub-custom-drag-layer">
+    <div style={layerStyles} className='sub-custom-drag-layer'>
       <div style={getItemStyles(delta, item, initialOffset, currentOffset, parentRef, parent, currentLayout)}>
         {renderItem()}
       </div>

@@ -6,7 +6,7 @@ import { DataSourceTypes } from '../DataSourceManager/DataSourceTypes';
 import { debounce } from 'lodash';
 import Fuse from 'fuse.js';
 
-export function CodeBuilder({
+export function CodeBuilder ({
   initialValue, onChange, components, dataQueries
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -15,7 +15,7 @@ export function CodeBuilder({
   const [codeMirrorInstance, setCodeMirrorInstance] = useState(null);
   const [currentWord, setCurrentWord] = useState('');
 
-  function computeCurrentWord(value, _cursorPosition) {
+  function computeCurrentWord (value, _cursorPosition) {
     const sliced = value
       .replace('{{', '')
       .replace('}}', '')
@@ -26,7 +26,7 @@ export function CodeBuilder({
 
   const delayedHandleChange = debounce((instance) => computeIfDropDownCanBeShown(instance), 500);
 
-  function computeIfDropDownCanBeShown(instance) {
+  function computeIfDropDownCanBeShown (instance) {
     const value = instance.getValue();
     onChange(value); // Callback for inspector
     let isCode = false;
@@ -44,7 +44,7 @@ export function CodeBuilder({
     }
   }
 
-  function handleVariableSelection(type, key, variable) {
+  function handleVariableSelection (type, key, variable) {
     let slice1 = currentValue.slice(0, cursorPosition);
     const slice2 = currentValue.slice(cursorPosition);
     const slice3 = `${type}.${key}.${variable}`;
@@ -58,31 +58,31 @@ export function CodeBuilder({
     setShowDropdown(false);
   }
 
-  function handleOnFocus(instance) {
+  function handleOnFocus (instance) {
     computeIfDropDownCanBeShown(instance);
   }
 
-  function renderVariable(type, key, variable) {
+  function renderVariable (type, key, variable) {
     return (
       <div
-        className="item my-1"
-        role="button"
+        className='item my-1'
+        role='button'
         onMouseDown={(e) => {
           e.preventDefault();
           handleVariableSelection(type, key, variable);
         }}
       >
-        <div className="row">
-          <div className="col">
+        <div className='row'>
+          <div className='col'>
             {key}.{variable}
           </div>
-          <div className="col-auto"></div>
+          <div className='col-auto' />
         </div>
       </div>
     );
   }
 
-  function renderVariables(type, key, variables) {
+  function renderVariables (type, key, variables) {
     const filterableData = variables.map((variable) => {
       return { name: variable, key };
     });
@@ -99,7 +99,7 @@ export function CodeBuilder({
     return filteredVariables.map((variable) => renderVariable(type, key, variable.item.name));
   }
 
-  function renderComponentVariables(component) {
+  function renderComponentVariables (component) {
     const componentType = component.component.component;
     const componentMeta = componentTypes.find((comp) => componentType === comp.component);
     const exposedVariables = componentMeta.exposedVariables;
@@ -107,7 +107,7 @@ export function CodeBuilder({
     return renderVariables('components', component.component.name, Object.keys(exposedVariables));
   }
 
-  function renderQueryVariables(query) {
+  function renderQueryVariables (query) {
     const dataSourceMeta = DataSourceTypes.find((source) => query.kind === source.kind);
     const exposedVariables = dataSourceMeta.exposedVariables;
 
@@ -115,9 +115,9 @@ export function CodeBuilder({
   }
 
   return (
-    <div className="code-builder">
+    <div className='code-builder'>
       <CodeMirror
-        fontSize="2"
+        fontSize='2'
         onCursorActivity={(instance) => setCursorPosition(instance.getCursor().ch)}
         // onChange={ (instance, change) => computeIfDropDownCanBeShown(instance) }
         onChange={(instance) => delayedHandleChange(instance)}
@@ -134,15 +134,15 @@ export function CodeBuilder({
         }}
       />
       {showDropdown && (
-        <div className="variables-dropdown">
-          <div className="card">
-            <div className="group-header p-2">components</div>
-            <div className="group-body p-2">
+        <div className='variables-dropdown'>
+          <div className='card'>
+            <div className='group-header p-2'>components</div>
+            <div className='group-body p-2'>
               {Object.keys(components).map((component) => renderComponentVariables(components[component]))}
             </div>
 
-            <div className="group-header p-1">queries</div>
-            <div className="group-body p-2">{dataQueries.map((query) => renderQueryVariables(query))}</div>
+            <div className='group-header p-1'>queries</div>
+            <div className='group-body p-2'>{dataQueries.map((query) => renderQueryVariables(query))}</div>
           </div>
         </div>
       )}

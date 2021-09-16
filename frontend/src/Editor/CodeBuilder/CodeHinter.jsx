@@ -8,22 +8,22 @@ import 'codemirror/addon/display/placeholder';
 import 'codemirror/addon/search/match-highlighter';
 import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/theme/base16-light.css';
-import 'codemirror/theme/duotone-light.css'
+import 'codemirror/theme/duotone-light.css';
 import 'codemirror/theme/monokai.css';
 import { getSuggestionKeys, onBeforeChange, handleChange } from './utils';
 import { resolveReferences } from '@/_helpers/utils';
 
-export function CodeHinter({
-  initialValue, 
-  onChange, 
-  currentState, 
-  mode, 
-  theme, 
-  lineNumbers, 
-  className, 
-  placeholder, 
-  ignoreBraces, 
-  enablePreview, 
+export function CodeHinter ({
+  initialValue,
+  onChange,
+  currentState,
+  mode,
+  theme,
+  lineNumbers,
+  className,
+  placeholder,
+  ignoreBraces,
+  enablePreview,
   height,
   minHeight,
   lineWrapping
@@ -47,18 +47,18 @@ export function CodeHinter({
     setRealState(currentState);
   }, [currentState.components]);
 
-  let suggestions = useMemo(() => {
+  const suggestions = useMemo(() => {
     return getSuggestionKeys(realState);
   }, [realState.components, realState.queries]);
 
-  function valueChanged(editor, onChange, suggestions, ignoreBraces) {
+  function valueChanged (editor, onChange, suggestions, ignoreBraces) {
     handleChange(editor, onChange, suggestions, ignoreBraces);
     setCurrentValue(editor.getValue());
   }
 
   return (
-    <div 
-      className={`code-hinter ${className || 'codehinter-default-input'}`} 
+    <div
+      className={`code-hinter ${className || 'codehinter-default-input'}`}
       key={suggestions.length}
       style={{ height: height || 'auto', minHeight, maxHeight: '320px', overflow: 'auto' }}
     >
@@ -67,7 +67,7 @@ export function CodeHinter({
         realState={realState}
         scrollbarStyle={null}
         height={height}
-        onBlur={(editor) => { 
+        onBlur={(editor) => {
           const value = editor.getValue();
           onChange(value);
         }}
@@ -75,11 +75,10 @@ export function CodeHinter({
         onBeforeChange={(editor, change) => onBeforeChange(editor, change, ignoreBraces)}
         options={options}
       />
-      {enablePreview && 
-        <div className="dynamic-variable-preview bg-green-lt px-2 py-1">
+      {enablePreview &&
+        <div className='dynamic-variable-preview bg-green-lt px-2 py-1'>
           {resolveReferences(currentValue, realState)}
-        </div>
-      }
+        </div>}
     </div>
   );
 }

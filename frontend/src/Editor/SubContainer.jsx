@@ -13,7 +13,7 @@ const styles = {
   position: 'absolute'
 };
 
-function uuidv4() {
+function uuidv4 () {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16));
 }
 
@@ -42,13 +42,13 @@ export const SubContainer = ({
 
   const allComponents = appDefinition ? appDefinition.components : {};
 
-  let childComponents = []
+  const childComponents = [];
 
   Object.keys(allComponents).forEach((key) => {
-    if(allComponents[key].parent === parent) {
-      childComponents[key] = allComponents[key]
-      }
+    if (allComponents[key].parent === parent) {
+      childComponents[key] = allComponents[key];
     }
+  }
   );
 
   const [boxes, setBoxes] = useState(allComponents);
@@ -75,35 +75,35 @@ export const SubContainer = ({
 
   useEffect(() => {
     console.log('new boxes - 2', boxes);
-    if(appDefinitionChanged) {
+    if (appDefinitionChanged) {
       appDefinitionChanged({ ...appDefinition, components: boxes });
     }
   }, [boxes]);
 
   const { draggingState } = useDragLayer((monitor) => {
     // TODO: Need to move to a performant version of the block below
-    if(monitor.getItem()) {
-      if(monitor.getItem().id === undefined)  {
-        if(parentRef.current) {
+    if (monitor.getItem()) {
+      if (monitor.getItem().id === undefined) {
+        if (parentRef.current) {
           const currentOffset = monitor.getSourceClientOffset();
-          if(currentOffset) {
+          if (currentOffset) {
             const canvasBoundingRect = parentRef.current.getElementsByClassName('real-canvas')[0].getBoundingClientRect();
-            if(currentOffset.x > canvasBoundingRect.x && currentOffset.x < canvasBoundingRect.x + canvasBoundingRect.width) {
-              return { draggingState: true }
+            if (currentOffset.x > canvasBoundingRect.x && currentOffset.x < canvasBoundingRect.x + canvasBoundingRect.width) {
+              return { draggingState: true };
             }
           }
         }
       }
     }
 
-    if(monitor.isDragging() && monitor.getItem().parent) {
-      if(monitor.getItem().parent === parent) {
-        return { draggingState: true }
-      } else { 
-        return { draggingState: false }
+    if (monitor.isDragging() && monitor.getItem().parent) {
+      if (monitor.getItem().parent === parent) {
+        return { draggingState: true };
+      } else {
+        return { draggingState: false };
       }
-    } else { 
-      return { draggingState: false }
+    } else {
+      return { draggingState: false };
     }
   });
 
@@ -114,7 +114,7 @@ export const SubContainer = ({
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.BOX,
-      drop(item, monitor) {
+      drop (item, monitor) {
         let componentData = {};
         let componentMeta = {};
         let id = item.id;
@@ -122,7 +122,7 @@ export const SubContainer = ({
         let left = 0;
         let top = 0;
 
-        let layouts = item['layouts'];
+        const layouts = item.layouts;
         const currentLayoutOptions = layouts ? layouts[item.currentLayout] : {};
 
         const canvasBoundingRect = parentRef.current.getElementsByClassName('real-canvas')[0].getBoundingClientRect();
@@ -138,24 +138,23 @@ export const SubContainer = ({
             [left, top] = doSnapToGrid(left, top);
           }
 
-          let newBoxes = { 
+          const newBoxes = {
             ...boxes,
             [id]: {
               ...boxes[id],
               parent: parent,
-              layouts: { 
-                ...boxes[id]['layouts'],
+              layouts: {
+                ...boxes[id].layouts,
                 [item.currentLayout]: {
-                  ...boxes[id]['layouts'][item.currentLayout],
+                  ...boxes[id].layouts[item.currentLayout],
                   top: top,
-                  left: left,
-                } 
+                  left: left
+                }
               }
             }
           };
 
           setBoxes(newBoxes);
-
         } else {
           //  This is a new component
           componentMeta = componentTypes.find((component) => component.component === item.component.component);
@@ -177,7 +176,7 @@ export const SubContainer = ({
           [left, top] = doSnapToGrid(left, top);
         }
 
-        if(item.currentLayout === 'mobile') { 
+        if (item.currentLayout === 'mobile') {
           componentData.definition.others.showOnDesktop.value = false;
           componentData.definition.others.showOnMobile.value = true;
         }
@@ -188,11 +187,11 @@ export const SubContainer = ({
             component: componentData,
             parent: parent,
             layouts: {
-              [item.currentLayout]: { 
+              [item.currentLayout]: {
                 top: top,
                 left: left,
                 width: componentMeta.defaultSize.width,
-                height: componentMeta.defaultSize.height,
+                height: componentMeta.defaultSize.height
               }
             }
           }
@@ -204,11 +203,11 @@ export const SubContainer = ({
     [moveBox]
   );
 
-  function onResizeStop(id, e, direction, ref, d, position) {
+  function onResizeStop (id, e, direction, ref, d, position) {
     const deltaWidth = d.width;
     const deltaHeight = d.height;
 
-    let { x, y } = position;
+    const { x, y } = position;
 
     const defaultData = {
       top: 100,
@@ -217,24 +216,27 @@ export const SubContainer = ({
       height: 500
     };
 
-    let  { left, top, width, height } = boxes[id]['layouts'][currentLayout] || defaultData;
-    
+    let { left, top, width, height } = boxes[id].layouts[currentLayout] || defaultData;
+
     top = y;
     left = x;
 
     width = width + deltaWidth;
-    height = height + deltaHeight
+    height = height + deltaHeight;
 
-    let newBoxes = { 
+    const newBoxes = {
       ...boxes,
       [id]: {
         ...boxes[id],
-        layouts: { 
-          ...boxes[id]['layouts'],
+        layouts: {
+          ...boxes[id].layouts,
           [currentLayout]: {
-            ...boxes[id]['layouts'][currentLayout],
-            width, height, top, left
-          } 
+            ...boxes[id].layouts[currentLayout],
+            width,
+            height,
+            top,
+            left
+          }
         }
       }
     };
@@ -242,7 +244,7 @@ export const SubContainer = ({
     setBoxes(newBoxes);
   }
 
-  function paramUpdated(id, param, value) {
+  function paramUpdated (id, param, value) {
     if (Object.keys(value).length > 0) {
       setBoxes(
         update(boxes, {
@@ -281,27 +283,27 @@ export const SubContainer = ({
           {...boxes[key]}
           mode={mode}
           resizingStatusChanged={(status) => setIsResizing(status)}
-          inCanvas={true}
+          inCanvas
           zoomLevel={zoomLevel}
           configHandleClicked={configHandleClicked}
           currentLayout={currentLayout}
           scaleValue={scaleValue}
           deviceWindowWidth={deviceWindowWidth}
-          isSelectedComponent={selectedComponent? selectedComponent.id === key : false}
+          isSelectedComponent={selectedComponent ? selectedComponent.id === key : false}
           removeComponent={removeComponent}
         />
       ))}
 
       {Object.keys(boxes).length === 0 && !appLoading && !isDragging && (
-        <div className="mx-auto mt-5 w-50 p-5 bg-light no-components-box">
-          <center className="text-muted">Drag components from the right sidebar and drop here.</center>
+        <div className='mx-auto mt-5 w-50 p-5 bg-light no-components-box'>
+          <center className='text-muted'>Drag components from the right sidebar and drop here.</center>
         </div>
       )}
       {appLoading && (
-        <div className="mx-auto mt-5 w-50 p-5">
+        <div className='mx-auto mt-5 w-50 p-5'>
           <center>
-            <div className="progress progress-sm w-50">
-              <div className="progress-bar progress-bar-indeterminate"></div>
+            <div className='progress progress-sm w-50'>
+              <div className='progress-bar progress-bar-indeterminate' />
             </div>
           </center>
         </div>

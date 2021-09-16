@@ -7,11 +7,11 @@ import { folderService } from '@/_services';
 import { toast } from 'react-toastify';
 import { lowerFirst } from 'lodash';
 
-export const AppMenu = function AppMenu({ app, folders, foldersChanged, deleteApp }) {
+export const AppMenu = function AppMenu ({ app, folders, foldersChanged, deleteApp }) {
   const [addToFolder, setAddToFolder] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
-  function addAppToFolder(appId, folderId) {
+  function addAppToFolder (appId, folderId) {
     setIsAdding(true);
 
     folderService
@@ -19,7 +19,7 @@ export const AppMenu = function AppMenu({ app, folders, foldersChanged, deleteAp
       .then(() => {
         toast.info('Added to folder.', {
           hideProgressBar: true,
-          position: 'top-center',
+          position: 'top-center'
         });
 
         foldersChanged();
@@ -33,25 +33,25 @@ export const AppMenu = function AppMenu({ app, folders, foldersChanged, deleteAp
       });
   }
 
-  function handleToggle(status) {
+  function handleToggle (status) {
     if (!status) {
       setAddToFolder(false);
     }
   }
 
-  function customFuzzySearch(options) {
+  function customFuzzySearch (options) {
     const fuse = new Fuse(options, {
       keys: ['name'],
-      threshold: 0.1,
+      threshold: 0.1
     });
 
     return (value) => {
       if (!value.length) {
         return options;
       }
-      let searchKeystrokes = fuse.search(value);
+      const searchKeystrokes = fuse.search(value);
 
-      let _fusionSearchArray = searchKeystrokes.map((_item) => _item.item);
+      const _fusionSearchArray = searchKeystrokes.map((_item) => _item.item);
 
       return _fusionSearchArray;
     };
@@ -59,23 +59,23 @@ export const AppMenu = function AppMenu({ app, folders, foldersChanged, deleteAp
 
   return (
     <OverlayTrigger
-      trigger="click"
-      placement="top"
+      trigger='click'
+      placement='top'
       rootClose
       onToggle={(status) => handleToggle(status)}
       overlay={
-        <Popover id="popover-basic">
+        <Popover id='popover-basic'>
           {/* <Popover.Title as="h3">brrr</Popover.Title> */}
           <Popover.Content>
             {!addToFolder && (
               <div>
-                <div className="field mb-2">
-                  <span role="button" onClick={() => setAddToFolder(true)}>
+                <div className='field mb-2'>
+                  <span role='button' onClick={() => setAddToFolder(true)}>
                     Add to folder{' '}
                   </span>
                 </div>
-                <div className="field mb-2">
-                  <span className="my-3 text-danger" role="button" onClick={() => deleteApp()}>
+                <div className='field mb-2'>
+                  <span className='my-3 text-danger' role='button' onClick={() => deleteApp()}>
                     Delete app{' '}
                   </span>
                 </div>
@@ -85,9 +85,9 @@ export const AppMenu = function AppMenu({ app, folders, foldersChanged, deleteAp
             {addToFolder && (
               <div>
                 {isAdding && (
-                  <div className="p-3">
+                  <div className='p-3'>
                     <center>
-                      <div className="spinner-border text-azure" role="status"></div>
+                      <div className='spinner-border text-azure' role='status' />
                     </center>
                   </div>
                 )}
@@ -97,12 +97,12 @@ export const AppMenu = function AppMenu({ app, folders, foldersChanged, deleteAp
                       return { name: folder.name, value: folder.id };
                     })}
                     // value={currentValue}
-                    search={true}
+                    search
                     onChange={(newVal) => {
                       addAppToFolder(app.id, newVal);
                     }}
                     filterOptions={customFuzzySearch}
-                    placeholder="Select folder"
+                    placeholder='Select folder'
                   />
                 )}
               </div>
@@ -111,8 +111,8 @@ export const AppMenu = function AppMenu({ app, folders, foldersChanged, deleteAp
         </Popover>
       }
     >
-      <span className="badge bg-blue-lt mx-2" role="button">
-        <img className="svg-icon" src="/assets/images/icons/app-menu.svg" width="12" height="12" />
+      <span className='badge bg-blue-lt mx-2' role='button'>
+        <img className='svg-icon' src='/assets/images/icons/app-menu.svg' width='12' height='12' />
       </span>
     </OverlayTrigger>
   );

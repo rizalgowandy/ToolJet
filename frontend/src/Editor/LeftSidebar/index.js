@@ -20,11 +20,11 @@ export const LeftSidebar = ({
   onZoomChanged,
   dataSources = [],
   dataSourcesChanged,
-  errorLogs,
+  errorLogs
 }) => {
   const router = useRouter();
   return (
-    <div className="left-sidebar">
+    <div className='left-sidebar'>
       <LeftSidebarInspector darkMode={darkMode} globals={globals} components={components} queries={queries} />
       <LeftSidebarDataSources
         darkMode={darkMode}
@@ -35,13 +35,13 @@ export const LeftSidebar = ({
       <LeftSidebarDebugger darkMode={darkMode} components={components} errors={errorLogs} />
       <LeftSidebarItem
         onClick={() => router.push('/')}
-        tip="Back to home"
-        icon="back"
-        className="left-sidebar-item no-border"
+        tip='Back to home'
+        icon='back'
+        className='left-sidebar-item no-border'
       />
-      <div className="left-sidebar-stack-bottom">
+      <div className='left-sidebar-stack-bottom'>
         <LeftSidebarZoom onZoomChanged={onZoomChanged} />
-        <div className="left-sidebar-item no-border">
+        <div className='left-sidebar-item no-border'>
           <DarkModeToggle switchDarkMode={switchDarkMode} darkMode={darkMode} />
         </div>
         {/* <LeftSidebarItem icon='support' className='left-sidebar-item' /> */}

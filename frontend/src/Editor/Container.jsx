@@ -7,9 +7,7 @@ import update from 'immutability-helper';
 import { componentTypes } from './Components/components';
 import { computeComponentName } from '@/_helpers/utils';
 
-
-
-function uuidv4() {
+function uuidv4 () {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16));
 }
 
@@ -33,7 +31,6 @@ export const Container = ({
   selectedComponent,
   darkMode
 }) => {
-
   const styles = {
     width: currentLayout === 'mobile' ? deviceWindowWidth : 1292,
     height: 2400,
@@ -70,14 +67,14 @@ export const Container = ({
   }, [boxes]);
 
   const { draggingState } = useDragLayer((monitor) => {
-    if(monitor.isDragging()) {
-      if(!monitor.getItem().parent) {
-        return { draggingState: true }
+    if (monitor.isDragging()) {
+      if (!monitor.getItem().parent) {
+        return { draggingState: true };
       } else {
-        return { draggingState: false }
+        return { draggingState: false };
       }
     } else {
-      return { draggingState: false }
+      return { draggingState: false };
     }
   });
 
@@ -88,13 +85,12 @@ export const Container = ({
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.BOX,
-      drop(item, monitor) {
-
-        if(item.parent) {
+      drop (item, monitor) {
+        if (item.parent) {
           return;
         }
 
-        let layouts = item['layouts'];
+        const layouts = item.layouts;
         const currentLayoutOptions = layouts ? layouts[item.currentLayout] : {};
 
         let componentData = {};
@@ -112,7 +108,7 @@ export const Container = ({
           let deltaX = 0;
           let deltaY = 0;
 
-          if(delta) {
+          if (delta) {
             deltaX = delta.x;
             deltaY = delta.y;
           }
@@ -125,23 +121,22 @@ export const Container = ({
             [left, top] = doSnapToGrid(left, top);
           }
 
-          let newBoxes = {
+          const newBoxes = {
             ...boxes,
             [id]: {
               ...boxes[id],
               layouts: {
-                ...boxes[id]['layouts'],
+                ...boxes[id].layouts,
                 [item.currentLayout]: {
-                  ...boxes[id]['layouts'][item.currentLayout],
+                  ...boxes[id].layouts[item.currentLayout],
                   top: top,
-                  left: left,
+                  left: left
                 }
               }
             }
           };
 
           setBoxes(newBoxes);
-
         } else {
           //  This is a new component
           componentMeta = componentTypes.find((component) => component.component === item.component.component);
@@ -162,7 +157,7 @@ export const Container = ({
             [left, top] = doSnapToGrid(left, top);
           }
 
-          if(item.currentLayout === 'mobile') {
+          if (item.currentLayout === 'mobile') {
             componentData.definition.others.showOnDesktop.value = false;
             componentData.definition.others.showOnMobile.value = true;
           }
@@ -176,7 +171,7 @@ export const Container = ({
                   top: top,
                   left: left,
                   width: componentMeta.defaultSize.width,
-                  height: componentMeta.defaultSize.height,
+                  height: componentMeta.defaultSize.height
                 }
               }
             }
@@ -189,11 +184,11 @@ export const Container = ({
     [moveBox]
   );
 
-  function onResizeStop(id, e, direction, ref, d, position) {
+  function onResizeStop (id, e, direction, ref, d, position) {
     const deltaWidth = d.width;
     const deltaHeight = d.height;
 
-    let { x, y } = position;
+    const { x, y } = position;
 
     const defaultData = {
       top: 100,
@@ -202,7 +197,7 @@ export const Container = ({
       height: 500
     };
 
-    let  { left, top, width, height } = boxes[id]['layouts'][currentLayout] || defaultData;
+    let { left, top, width, height } = boxes[id].layouts[currentLayout] || defaultData;
 
     top = y;
     left = x;
@@ -210,15 +205,18 @@ export const Container = ({
     width = width + deltaWidth;
     height = height + deltaHeight;
 
-    let newBoxes = {
+    const newBoxes = {
       ...boxes,
       [id]: {
         ...boxes[id],
         layouts: {
-          ...boxes[id]['layouts'],
+          ...boxes[id].layouts,
           [currentLayout]: {
-            ...boxes[id]['layouts'][currentLayout],
-            width, height, top, left
+            ...boxes[id].layouts[currentLayout],
+            width,
+            height,
+            top,
+            left
           }
         }
       }
@@ -227,7 +225,7 @@ export const Container = ({
     setBoxes(newBoxes);
   }
 
-  function paramUpdated(id, param, value) {
+  function paramUpdated (id, param, value) {
     if (Object.keys(value).length > 0) {
       setBoxes(
         update(boxes, {
@@ -253,66 +251,67 @@ export const Container = ({
   return (
     <div ref={drop} style={styles} className={`real-canvas ${isDragging || isResizing ? ' show-grid' : ''}`}>
       {Object.keys(boxes).map((key) => {
-
         const box = boxes[key];
         const canShowInCurrentLayout = box.component.definition.others[currentLayout === 'mobile' ? 'showOnMobile' : 'showOnDesktop'].value;
 
-        if(!box.parent && canShowInCurrentLayout) {
-          return <DraggableBox
-            onComponentClick={onComponentClick}
-            onEvent={onEvent}
-            onComponentOptionChanged={onComponentOptionChanged}
-            onComponentOptionsChanged={onComponentOptionsChanged}
-            key={key}
-            currentState={currentState}
-            onResizeStop={onResizeStop}
-            paramUpdated={paramUpdated}
-            id={key}
-            {...boxes[key]}
-            mode={mode}
-            resizingStatusChanged={(status) => setIsResizing(status)}
-            inCanvas={true}
-            zoomLevel={zoomLevel}
-            configHandleClicked={configHandleClicked}
-            removeComponent={removeComponent}
-            currentLayout={currentLayout}
-            scaleValue={scaleValue}
-            deviceWindowWidth={deviceWindowWidth}
-            isSelectedComponent={selectedComponent? selectedComponent.id === key : false}
-            darkMode={darkMode}
-            containerProps={{
-              mode,
-              snapToGrid,
-              onComponentClick,
-              onEvent,
-              appDefinition,
-              appDefinitionChanged,
-              currentState,
-              onComponentOptionChanged,
-              onComponentOptionsChanged,
-              appLoading,
-              zoomLevel,
-              configHandleClicked,
-              removeComponent,
-              currentLayout,
-              scaleValue,
-              deviceWindowWidth,
-              selectedComponent,
-              darkMode
-            }}
-          />
+        if (!box.parent && canShowInCurrentLayout) {
+          return (
+            <DraggableBox
+              onComponentClick={onComponentClick}
+              onEvent={onEvent}
+              onComponentOptionChanged={onComponentOptionChanged}
+              onComponentOptionsChanged={onComponentOptionsChanged}
+              key={key}
+              currentState={currentState}
+              onResizeStop={onResizeStop}
+              paramUpdated={paramUpdated}
+              id={key}
+              {...boxes[key]}
+              mode={mode}
+              resizingStatusChanged={(status) => setIsResizing(status)}
+              inCanvas
+              zoomLevel={zoomLevel}
+              configHandleClicked={configHandleClicked}
+              removeComponent={removeComponent}
+              currentLayout={currentLayout}
+              scaleValue={scaleValue}
+              deviceWindowWidth={deviceWindowWidth}
+              isSelectedComponent={selectedComponent ? selectedComponent.id === key : false}
+              darkMode={darkMode}
+              containerProps={{
+                mode,
+                snapToGrid,
+                onComponentClick,
+                onEvent,
+                appDefinition,
+                appDefinitionChanged,
+                currentState,
+                onComponentOptionChanged,
+                onComponentOptionsChanged,
+                appLoading,
+                zoomLevel,
+                configHandleClicked,
+                removeComponent,
+                currentLayout,
+                scaleValue,
+                deviceWindowWidth,
+                selectedComponent,
+                darkMode
+              }}
+            />
+          );
         }
-        }
+      }
       )}
       {Object.keys(boxes).length === 0 && !appLoading && !isDragging && (
-        <div className="mx-auto w-50 p-5 bg-light no-components-box" style={{ marginTop: '10%'}}>
-          <center className="text-muted">You haven&apos;t added any components yet. Drag components from the right sidebar and drop here.</center>
+        <div className='mx-auto w-50 p-5 bg-light no-components-box' style={{ marginTop: '10%' }}>
+          <center className='text-muted'>You haven&apos;t added any components yet. Drag components from the right sidebar and drop here.</center>
         </div>
       )}
       {appLoading && (
-        <div className="mx-auto mt-5 w-50 p-5">
+        <div className='mx-auto mt-5 w-50 p-5'>
           <center>
-            <div className="spinner-border text-azure" role="status"></div>
+            <div className='spinner-border text-azure' role='status' />
           </center>
         </div>
       )}

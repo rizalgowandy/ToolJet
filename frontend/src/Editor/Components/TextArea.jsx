@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { resolveReferences, resolveWidgetFieldValue } from '@/_helpers/utils';
 
-export const TextArea = function TextArea({
+export const TextArea = function TextArea ({
   id,
   width,
   height,
@@ -10,7 +10,6 @@ export const TextArea = function TextArea({
   currentState,
   onComponentOptionChanged
 }) {
-
   const value = component.definition.properties.value ? component.definition.properties.value.value : '';
   const [text, setText] = useState(value);
 
@@ -24,7 +23,7 @@ export const TextArea = function TextArea({
     setText(newText);
     onComponentOptionChanged(component, 'value', newText);
   }, [newText]);
-  
+
   const placeholder = component.definition.properties.placeholder.value;
   const widgetVisibility = component.definition.styles?.visibility?.value ?? true;
   const disabledState = component.definition.styles?.disabledState?.value ?? false;
@@ -32,7 +31,7 @@ export const TextArea = function TextArea({
   const parsedDisabledState = typeof disabledState !== 'boolean' ? resolveWidgetFieldValue(disabledState, currentState) : disabledState;
 
   let parsedWidgetVisibility = widgetVisibility;
-  
+
   try {
     parsedWidgetVisibility = resolveReferences(parsedWidgetVisibility, currentState, []);
   } catch (err) { console.log(err); }
@@ -40,16 +39,16 @@ export const TextArea = function TextArea({
   return (
     <textarea
       disabled={parsedDisabledState}
-      onClick={event => {event.stopPropagation(); onComponentClick(id, component)}}
+      onClick={event => { event.stopPropagation(); onComponentClick(id, component); }}
       onChange={(e) => {
         setText(e.target.value);
         onComponentOptionChanged(component, 'value', e.target.value);
       }}
-      type="text"
-      className="form-control"
+      type='text'
+      className='form-control'
       placeholder={placeholder}
-      style={{ width, height, display:parsedWidgetVisibility ? '' : 'none' }}
+      style={{ width, height, display: parsedWidgetVisibility ? '' : 'none' }}
       value={text}
-    ></textarea>
+    />
   );
 };
